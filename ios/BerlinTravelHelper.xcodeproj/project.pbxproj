@@ -7,24 +7,60 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04B7E8F8DF2F453F80A16FC9 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89512B7D6F764994B31ADF4E /* SFProText-Semibold.ttf */; };
 		0C80B921A6F3F58F76C31292 /* libPods-BerlinTravelHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-BerlinTravelHelper.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		1C6284F753594D31AEDA1A12 /* SFProText-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1EA2FF9E7FBF451EBAC21D45 /* SFProText-Heavy.ttf */; };
+		1E320BD33BEE4B4CA399619D /* SFProText-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 722909C054B14FD091ACD388 /* SFProText-LightItalic.ttf */; };
+		29B801A6D18A473EB1E3D894 /* DMSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB2C7FA3C9D647C7B2646FCD /* DMSans-Light.ttf */; };
+		3CECF75DD97C4214BEF0F66B /* DMSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 24D280564DC8443C8464A144 /* DMSans-Black.ttf */; };
+		3CF475E2256F4E46B54B7B54 /* SFProText-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15C20642CE9A4846A602024A /* SFProText-SemiboldItalic.ttf */; };
+		4C49BB59588D4497B1E7E011 /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BEDF6CA5AD34795BFAD100A /* SFProText-Regular.ttf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
+		78DF91F2876F4D0990728EA3 /* SFProText-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82AF50B8479A44B6A0C7FB8A /* SFProText-Light.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		881171FAA6D347A2AF5555FD /* SFProText-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0BCBD61FE414487683573267 /* SFProText-Medium.ttf */; };
+		9116453C3F43430DB94BDA28 /* DMSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B971CA47399426C848B936B /* DMSans-SemiBold.ttf */; };
+		A416005EE09E450EBA4395C8 /* DMSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C0D7A8E55C643DAA5180DFE /* DMSans-Medium.ttf */; };
+		B1FDC08DDCC84A7EA6AF2E06 /* SFProText-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6164D06A997042A59AFF4CA5 /* SFProText-BoldItalic.ttf */; };
+		B2C1A0AA405743AB97141F35 /* DMSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4FFEDC9C05494243B8762FC3 /* DMSans-Bold.ttf */; };
+		D14725C339474B20AFB763B7 /* SFProText-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D5042AED988470DB84F25D8 /* SFProText-HeavyItalic.ttf */; };
+		D56028D1CBF147588527568F /* SFProText-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D137C31E9D9D4087AE89AEA1 /* SFProText-MediumItalic.ttf */; };
+		E27E19CA04E24945AAFB9FF9 /* DMSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F62AAC845DE34DA0ACBEE7FC /* DMSans-Regular.ttf */; };
+		F0389834DD124F809A5FCE3D /* SFProText-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66FD1E1A89A940DD8604CB80 /* SFProText-RegularItalic.ttf */; };
 		F39FB4FF793CF51D58027265 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		F3FA2A9F0C8F4CE78CDD10FC /* SFProText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DF01437795674564B0770859 /* SFProText-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0BCBD61FE414487683573267 /* SFProText-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Medium.ttf"; path = "../src/assets/fonts/SFProText-Medium.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* BerlinTravelHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BerlinTravelHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = BerlinTravelHelper/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BerlinTravelHelper/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = BerlinTravelHelper/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		15C20642CE9A4846A602024A /* SFProText-SemiboldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-SemiboldItalic.ttf"; path = "../src/assets/fonts/SFProText-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		1D5042AED988470DB84F25D8 /* SFProText-HeavyItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-HeavyItalic.ttf"; path = "../src/assets/fonts/SFProText-HeavyItalic.ttf"; sourceTree = "<group>"; };
+		1EA2FF9E7FBF451EBAC21D45 /* SFProText-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Heavy.ttf"; path = "../src/assets/fonts/SFProText-Heavy.ttf"; sourceTree = "<group>"; };
+		24D280564DC8443C8464A144 /* DMSans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Black.ttf"; path = "../src/assets/fonts/DMSans-Black.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-BerlinTravelHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BerlinTravelHelper.debug.xcconfig"; path = "Target Support Files/Pods-BerlinTravelHelper/Pods-BerlinTravelHelper.debug.xcconfig"; sourceTree = "<group>"; };
+		4B971CA47399426C848B936B /* DMSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-SemiBold.ttf"; path = "../src/assets/fonts/DMSans-SemiBold.ttf"; sourceTree = "<group>"; };
+		4FFEDC9C05494243B8762FC3 /* DMSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Bold.ttf"; path = "../src/assets/fonts/DMSans-Bold.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-BerlinTravelHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BerlinTravelHelper.release.xcconfig"; path = "Target Support Files/Pods-BerlinTravelHelper/Pods-BerlinTravelHelper.release.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-BerlinTravelHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BerlinTravelHelper.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6164D06A997042A59AFF4CA5 /* SFProText-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-BoldItalic.ttf"; path = "../src/assets/fonts/SFProText-BoldItalic.ttf"; sourceTree = "<group>"; };
+		66FD1E1A89A940DD8604CB80 /* SFProText-RegularItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-RegularItalic.ttf"; path = "../src/assets/fonts/SFProText-RegularItalic.ttf"; sourceTree = "<group>"; };
+		722909C054B14FD091ACD388 /* SFProText-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-LightItalic.ttf"; path = "../src/assets/fonts/SFProText-LightItalic.ttf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = BerlinTravelHelper/AppDelegate.swift; sourceTree = "<group>"; };
+		7C0D7A8E55C643DAA5180DFE /* DMSans-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Medium.ttf"; path = "../src/assets/fonts/DMSans-Medium.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = BerlinTravelHelper/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		82AF50B8479A44B6A0C7FB8A /* SFProText-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Light.ttf"; path = "../src/assets/fonts/SFProText-Light.ttf"; sourceTree = "<group>"; };
+		89512B7D6F764994B31ADF4E /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Semibold.ttf"; path = "../src/assets/fonts/SFProText-Semibold.ttf"; sourceTree = "<group>"; };
+		9BEDF6CA5AD34795BFAD100A /* SFProText-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Regular.ttf"; path = "../src/assets/fonts/SFProText-Regular.ttf"; sourceTree = "<group>"; };
+		D137C31E9D9D4087AE89AEA1 /* SFProText-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-MediumItalic.ttf"; path = "../src/assets/fonts/SFProText-MediumItalic.ttf"; sourceTree = "<group>"; };
+		DF01437795674564B0770859 /* SFProText-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Bold.ttf"; path = "../src/assets/fonts/SFProText-Bold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F62AAC845DE34DA0ACBEE7FC /* DMSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Regular.ttf"; path = "../src/assets/fonts/DMSans-Regular.ttf"; sourceTree = "<group>"; };
+		FB2C7FA3C9D647C7B2646FCD /* DMSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Light.ttf"; path = "../src/assets/fonts/DMSans-Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +111,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				FACC8FF4AB724E9982652B56 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -96,6 +133,31 @@
 				5709B34CF0A7D63546082F79 /* Pods-BerlinTravelHelper.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		FACC8FF4AB724E9982652B56 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DF01437795674564B0770859 /* SFProText-Bold.ttf */,
+				6164D06A997042A59AFF4CA5 /* SFProText-BoldItalic.ttf */,
+				1EA2FF9E7FBF451EBAC21D45 /* SFProText-Heavy.ttf */,
+				1D5042AED988470DB84F25D8 /* SFProText-HeavyItalic.ttf */,
+				82AF50B8479A44B6A0C7FB8A /* SFProText-Light.ttf */,
+				722909C054B14FD091ACD388 /* SFProText-LightItalic.ttf */,
+				0BCBD61FE414487683573267 /* SFProText-Medium.ttf */,
+				D137C31E9D9D4087AE89AEA1 /* SFProText-MediumItalic.ttf */,
+				9BEDF6CA5AD34795BFAD100A /* SFProText-Regular.ttf */,
+				66FD1E1A89A940DD8604CB80 /* SFProText-RegularItalic.ttf */,
+				89512B7D6F764994B31ADF4E /* SFProText-Semibold.ttf */,
+				15C20642CE9A4846A602024A /* SFProText-SemiboldItalic.ttf */,
+				24D280564DC8443C8464A144 /* DMSans-Black.ttf */,
+				4FFEDC9C05494243B8762FC3 /* DMSans-Bold.ttf */,
+				FB2C7FA3C9D647C7B2646FCD /* DMSans-Light.ttf */,
+				7C0D7A8E55C643DAA5180DFE /* DMSans-Medium.ttf */,
+				F62AAC845DE34DA0ACBEE7FC /* DMSans-Regular.ttf */,
+				4B971CA47399426C848B936B /* DMSans-SemiBold.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,6 +223,24 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				F39FB4FF793CF51D58027265 /* PrivacyInfo.xcprivacy in Resources */,
+				F3FA2A9F0C8F4CE78CDD10FC /* SFProText-Bold.ttf in Resources */,
+				B1FDC08DDCC84A7EA6AF2E06 /* SFProText-BoldItalic.ttf in Resources */,
+				1C6284F753594D31AEDA1A12 /* SFProText-Heavy.ttf in Resources */,
+				D14725C339474B20AFB763B7 /* SFProText-HeavyItalic.ttf in Resources */,
+				78DF91F2876F4D0990728EA3 /* SFProText-Light.ttf in Resources */,
+				1E320BD33BEE4B4CA399619D /* SFProText-LightItalic.ttf in Resources */,
+				881171FAA6D347A2AF5555FD /* SFProText-Medium.ttf in Resources */,
+				D56028D1CBF147588527568F /* SFProText-MediumItalic.ttf in Resources */,
+				4C49BB59588D4497B1E7E011 /* SFProText-Regular.ttf in Resources */,
+				F0389834DD124F809A5FCE3D /* SFProText-RegularItalic.ttf in Resources */,
+				04B7E8F8DF2F453F80A16FC9 /* SFProText-Semibold.ttf in Resources */,
+				3CF475E2256F4E46B54B7B54 /* SFProText-SemiboldItalic.ttf in Resources */,
+				3CECF75DD97C4214BEF0F66B /* DMSans-Black.ttf in Resources */,
+				B2C1A0AA405743AB97141F35 /* DMSans-Bold.ttf in Resources */,
+				29B801A6D18A473EB1E3D894 /* DMSans-Light.ttf in Resources */,
+				A416005EE09E450EBA4395C8 /* DMSans-Medium.ttf in Resources */,
+				E27E19CA04E24945AAFB9FF9 /* DMSans-Regular.ttf in Resources */,
+				9116453C3F43430DB94BDA28 /* DMSans-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +340,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = BerlinTravelHelper/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -273,7 +354,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.copenhagencircle.app;
 				PRODUCT_NAME = BerlinTravelHelper;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -288,6 +369,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BerlinTravelHelper/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -300,7 +382,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.copenhagencircle.app;
 				PRODUCT_NAME = BerlinTravelHelper;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
