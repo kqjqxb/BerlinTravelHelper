@@ -10,138 +10,81 @@ import {
   View
 } from 'react-native';
 
-
+import museumsData from '../components/museumsData';
+import historicalMonumentsData from '../components/historicalMonumentsData';
+import contemporaryArtObjectsData from '../components/contemporaryArtObjectsData';
 
 import SettingsScreen from './SettingsScreen';
-import EventDetailsScreen from './EventDetailsScreen';
-import PicnicsScreen from './PicnicsScreen';
-import CheckListsScreen from './CheckListsScreen';
-import GoalsScreen from './GoalsScreen';
-
-import marketsData from '../components/marketsData';
-import festivalsData from '../components/festivalsData';
-import bikeRidesData from '../components/bikeRidesData';
-import cleaningData from '../components/cleaningData';
-
+import BerlinPlaceDetailsScreen from './BerlinPlaceDetailsScreen';
+import BerlinWishlistsScreen from './BerlinWishlistsScreen';
+import CasScreen from './CasScreen';
+import LoadingBerlinTravelHelperScreen from './LoadingBerlinTravelHelperScreen';
 
 const homePagesButtons = [
-  { screen: 'Home', iconImage: require('../assets/icons/buttons/eventsIcon.png'), selectedIconImage: require('../assets/icons/selectedBut/selectedEvents.png') },
-  { screen: 'Picnics', iconImage: require('../assets/icons/buttons/picnicsIcon.png'), selectedIconImage: require('../assets/icons/selectedBut/selectedPicnics.png') },
-  { screen: 'Checklists', iconImage: require('../assets/icons/buttons/checklistsIcon.png'), selectedIconImage: require('../assets/icons/selectedBut/selectedChecklists.png') },
-  { screen: 'Goals', iconImage: require('../assets/icons/buttons/goalsIcon.png'), selectedIconImage: require('../assets/icons/selectedBut/selectedGoals.png') },
-  { screen: 'Settings', iconImage: require('../assets/icons/buttons/settingsIcon.png'), selectedIconImage: require('../assets/icons/selectedBut/selectedSettings.png') },
+  {
+    bthScreen: 'Home',
+    bthSilverIcon: require('../assets/icons/bthSilverIcons/bthHomeIcon.png'),
+    bthRedIcon: require('../assets/icons/bthRedIcons/bthHomeIcon.png'),
+    bthScreenTitle: 'Local',
+  },
+  {
+    bthScreen: 'Casino',
+    bthSilverIcon: require('../assets/icons/bthSilverIcons/bthCasIcon.png'),
+    bthRedIcon: require('../assets/icons/bthRedIcons/bthCasIcon.png'),
+    bthScreenTitle: 'Casino',
+  },
+  {
+    bthScreen: 'Checklists',
+    bthSilverIcon: require('../assets/icons/bthSilverIcons/bthWidhlistIcon.png'),
+    bthRedIcon: require('../assets/icons/bthRedIcons/bthWidhlistIcon.png'),
+    bthScreenTitle: 'Wish-list',
+  },
+  {
+    bthScreen: 'Settings',
+    bthSilverIcon: require('../assets/icons/bthSilverIcons/bthSettingsIcon.png'),
+    bthRedIcon: require('../assets/icons/bthRedIcons/bthSettingsIcon.png'),
+    bthScreenTitle: 'Settings',
+  },
 ];
 
-const allData = [...marketsData, ...festivalsData, ...bikeRidesData, ...cleaningData];
+const allData = [...museumsData, ...historicalMonumentsData, ...contemporaryArtObjectsData];
 
 
 const fontSfProTextRegular = 'SFProText-Regular';
+const fontDMSansRegular = 'DMSans-Regular';
 
 const HomeScreen = () => {
 
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
-  const [selectedScreen, setSelectedScreen] = useState('Home');
+  const [selectedBerlinScreen, setSelectedBerlinScreen] = useState('LoadingBerlin');
 
-  const [isNotificationEnabled, setNotificationEnabled] = useState(false);
   const [favorites, setFavorites] = useState([]);
-  const [selectedEventCategory, setSelectedEventCategory] = useState('All');
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedBerlinCategory, setSelectedBerlinCategory] = useState('All');
+  const [selectedBerlinPlace, setSelectedBerlinPlace] = useState(null);
   const scrollViewRef = useRef(null);
 
-  useEffect(() => {
-    const fetchStorageFavourites = async () => {
-      try {
-        const saved = await AsyncStorage.getItem('favorites');
-        setFavorites(saved ? JSON.parse(saved) : []);
-      } catch (error) {
-        console.error('Error  favorites:', error);
-      }
-    };
-
-    fetchStorageFavourites();
-
-  }, [selectedScreen,]);
-
-
-
-  const saveFavourite = async (favourite) => {
-    try {
-      const savedFav = await AsyncStorage.getItem('favorites');
-      const parsedFav = savedFav ? JSON.parse(savedFav) : [];
-
-      const favIndex = parsedFav.findIndex((fav) => fav.id === favourite.id);
-
-      if (favIndex === -1) {
-        const updatedFavs = [favourite, ...parsedFav];
-        await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavs));
-        setFavorites(updatedFavs);
-        console.log('favourite збережена');
-      } else {
-        const updatedFavs = parsedFav.filter((fav) => fav.id !== favourite.id);
-        await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavs));
-        setFavorites(updatedFavs);
-        console.log('favourite видалена');
-      }
-    } catch (error) {
-      console.error('Помилка збереження/видалення локації:', error);
-    }
-  };
-
-  const isThisFavourite = (favourite) => {
-    return favorites.some((fav) => fav.id === favourite.id);
-  };
-
-  useEffect(() => {
-    console.log('allData:', allData);
-  }, [])
-
-
-  const loadSettings = async () => {
-    try {
-      const notificationValue = await AsyncStorage.getItem('isNotificationEnabled');
-
-      if (notificationValue !== null) setNotificationEnabled(JSON.parse(notificationValue));
-    } catch (error) {
-      console.error("Error loading notification settings:", error);
-    }
-  };
-
-
-  const getDataByCategory = (category) => {
+  const getBerlinDataByCategory = (category) => {
     switch (category) {
       case 'All':
         return allData;
-      case 'Festivals':
-        return festivalsData;
-      case 'Bike Rides':
-        return bikeRidesData;
-      case 'Cleaning':
-        return cleaningData;
+      case 'Museums':
+        return museumsData;
+      case 'Historical monuments':
+        return historicalMonumentsData;
+      case 'Contemporary art objects':
+        return contemporaryArtObjectsData;
       default:
         return [];
     }
   };
 
-  const data = getDataByCategory(selectedEventCategory);
-
-
-  useEffect(() => {
-    console.log('favorites:', favorites);
-  }, [favorites]);
-
-  useEffect(() => {
-    loadSettings();
-  }, [isNotificationEnabled, selectedScreen]);
+  const berlinData = getBerlinDataByCategory(selectedBerlinCategory);
 
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTo({ y: 0, animated: false });
     }
-  }, [selectedEventCategory]);
-
-
-
-
+  }, [selectedBerlinCategory]);
 
   return (
     <View style={{
@@ -151,7 +94,7 @@ const HomeScreen = () => {
       width: dimensions.width
     }}>
 
-      {selectedScreen === 'Home' ? (
+      {selectedBerlinScreen === 'Home' ? (
         <SafeAreaView style={{
           width: dimensions.width,
         }}>
@@ -160,27 +103,24 @@ const HomeScreen = () => {
             borderBottomColor: '#FFFFFF80',
             borderBottomWidth: dimensions.height * 0.00055,
             alignSelf: 'center',
-            paddingHorizontal: dimensions.width * 0.05,
+            marginBottom: dimensions.height * 0.01,
             justifyContent: 'center',
             alignItems: 'center',
-
           }}>
             <Text style={{
               textAlign: 'center',
-              fontFamily: fontSfProTextRegular,
+              fontFamily: fontDMSansRegular,
               fontWeight: 700,
               fontSize: dimensions.width * 0.05,
               alignItems: 'center',
               alignSelf: 'center',
               color: 'white',
-              paddingBottom: dimensions.height * 0.016,
+              paddingBottom: dimensions.height * 0.014,
             }}
             >
               Local
             </Text>
-
           </View>
-
 
           <View style={{
             marginVertical: dimensions.height * 0.01,
@@ -202,13 +142,14 @@ const HomeScreen = () => {
                     key={category}
                     style={{
                       borderRadius: dimensions.width * 0.016,
-                      backgroundColor: selectedEventCategory === category ? '#FF0000' : '#848484',
+                      backgroundColor: selectedBerlinCategory === category ? '#FF0000' : '#848484',
                       alignItems: 'center',
                       justifyContent: 'center',
                       marginLeft: dimensions.width * 0.021,
+                      height: dimensions.height * 0.05,
                     }}
                     onPress={() => {
-                      setSelectedEventCategory(`${category}`);
+                      setSelectedBerlinCategory(`${category}`);
                     }}
                   >
                     <Text
@@ -217,7 +158,7 @@ const HomeScreen = () => {
                         fontSize: dimensions.width * 0.043,
                         color: 'white',
                         fontWeight: 400,
-                        paddingVertical: dimensions.height * 0.014,
+
                         paddingHorizontal: dimensions.width * 0.05,
                       }}
                     >
@@ -227,8 +168,8 @@ const HomeScreen = () => {
                 ))}
               </View>
             </ScrollView>
-
           </View>
+
           <ScrollView
             ref={scrollViewRef}
             showsVerticalScrollIndicator={false}
@@ -240,30 +181,28 @@ const HomeScreen = () => {
               paddingBottom: dimensions.height * 0.25,
             }}
           >
-            {data.map((item, index) => (
+            {berlinData.map((item, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  setSelectedEvent(item);
-                  setSelectedScreen('EventDetails')
+                  setSelectedBerlinPlace(item);
+                  setSelectedBerlinScreen('EventDetails')
                 }}
                 style={{
                   alignSelf: 'center',
                   width: dimensions.width * 0.95,
-
+                  marginBottom: dimensions.height * 0.021,
                   zIndex: 500
                 }}
               >
-
-
                 <Image
-                  source={item.image}
+                  source={item.bthImage}
                   style={{
-                    width: dimensions.width * 0.97,
-                    height: dimensions.height * 0.23,
+                    width: dimensions.width * 0.93,
+                    height: dimensions.height * 0.25,
                     alignSelf: 'center',
                     textAlign: 'center',
-                    borderRadius: dimensions.width * 0.055,
+                    borderRadius: dimensions.width * 0.03,
                   }}
                   resizeMode="stretch"
                 />
@@ -275,157 +214,88 @@ const HomeScreen = () => {
                 }}>
                   <Text
                     style={{
-                      fontFamily: fontSfProTextRegular,
-                      fontSize: dimensions.width * 0.043,
+                      fontFamily: fontDMSansRegular,
+                      fontSize: dimensions.width * 0.046,
                       color: 'white',
                       padding: dimensions.width * 0.021,
                       fontWeight: 600,
-                      maxWidth: dimensions.width * 0.8,
+                      maxWidth: dimensions.width * 0.9,
                     }}
                   >
-                    {item.title}
-                  </Text>
-
-                  <TouchableOpacity onPress={() => saveFavourite(item)} style={{ zIndex: 1000, }}>
-
-                    <Image
-                      source={isThisFavourite(item)
-                        ? require('../assets/icons/fullBlueHeartIcon.png')
-                        : require('../assets/icons/blueHeartIcon.png')}
-                      style={{
-                        width: dimensions.height * 0.064,
-                        height: dimensions.width * 0.064,
-                        marginTop: dimensions.height * 0.01,
-                        textAlign: 'center',
-                        alignItems: 'center',
-                      }}
-                      resizeMode="contain"
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View style={{
-                  flexDirection: 'row',
-                  alignSelf: 'flex-start',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingTop: 0,
-                  paddingHorizontal: dimensions.width * 0.021,
-                }}>
-
-                  <Text
-                    style={{
-                      fontFamily: 'SFPro-Medium',
-                      fontSize: dimensions.width * 0.037,
-                      color: '#999999',
-                      opacity: 0.7,
-                      fontWeight: 500
-                    }}
-                  >
-                    {item.date}
-                  </Text>
-
-                  <Text
-                    style={{
-                      fontFamily: 'SFPro-Medium',
-                      fontSize: dimensions.width * 0.037,
-                      color: '#999999',
-                      opacity: 0.7,
-                      paddingHorizontal: dimensions.width * 0.016,
-                      fontWeight: 500
-                    }}
-                  >
-                    •
-                  </Text>
-
-
-                  <Text
-                    style={{
-                      fontFamily: 'SFPro-Medium',
-                      fontSize: dimensions.width * 0.037,
-                      color: '#999999',
-                      opacity: 0.7,
-                      fontWeight: 500
-                    }}
-                  >
-                    {item.time}
+                    {item.bthTitle}
                   </Text>
                 </View>
               </TouchableOpacity>
             ))}
           </ScrollView>
         </SafeAreaView>
-      ) : selectedScreen === 'Settings' ? (
-        <SettingsScreen setSelectedScreen={setSelectedScreen} isNotificationEnabled={isNotificationEnabled} setNotificationEnabled={setNotificationEnabled} allData={allData}
-          favorites={favorites} setFavorites={setFavorites}
+      ) : selectedBerlinScreen === 'Settings' ? (
+        <SettingsScreen setSelectedBerlinScreen={setSelectedBerlinScreen}
         />
-      ) : selectedScreen === 'EventDetails' ? (
-        <EventDetailsScreen setSelectedScreen={setSelectedScreen} selectedScreen={selectedScreen} favorites={favorites} setFavorites={setFavorites}
-          selectedEvent={selectedEvent} setSelectedEvent={setSelectedEvent}
+      ) : selectedBerlinScreen === 'EventDetails' ? (
+        <BerlinPlaceDetailsScreen setSelectedBerlinScreen={setSelectedBerlinScreen} selectedBerlinScreen={selectedBerlinScreen} favorites={favorites} setFavorites={setFavorites}
+          selectedBerlinPlace={selectedBerlinPlace} setSelectedBerlinPlace={setSelectedBerlinPlace}
         />
-      ) : selectedScreen === 'Picnics' ? (
-        <PicnicsScreen setSelectedScreen={setSelectedScreen} selectedScreen={selectedScreen} />
-      ) : selectedScreen === 'Checklists' ? (
-        <CheckListsScreen setSelectedScreen={setSelectedScreen} selectedScreen={selectedScreen} />
-      ) : selectedScreen === 'Goals' ? (
-        <GoalsScreen setSelectedScreen={setSelectedScreen} selectedScreen={selectedScreen} />
+      ) : selectedBerlinScreen === 'Casino' ? (
+        <CasScreen setSelectedBerlinScreen={setSelectedBerlinScreen} selectedBerlinScreen={selectedBerlinScreen} selectedBerlinPlace={selectedBerlinPlace} setSelectedBerlinPlace={setSelectedBerlinPlace} />
+      ) : selectedBerlinScreen === 'Checklists' ? (
+        <BerlinWishlistsScreen setSelectedBerlinScreen={setSelectedBerlinScreen} selectedBerlinScreen={selectedBerlinScreen} />
+      ) : selectedBerlinScreen === 'LoadingBerlin' ? (
+        <LoadingBerlinTravelHelperScreen setSelectedBerlinScreen={setSelectedBerlinScreen} selectedBerlinScreen={selectedBerlinScreen} />
       ) : null}
 
-
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          paddingBottom: dimensions.height * 0.03,
-          paddingTop: dimensions.height * 0.019,
-          paddingHorizontal: dimensions.width * 0.03,
-          backgroundColor: '#151515',
-          width: dimensions.width,
-
-
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          alignSelf: 'center',
-          paddingVertical: dimensions.height * 0.004,
-          zIndex: 5000
-
-        }}
-      >
-        {homePagesButtons.map((button, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => setSelectedScreen(button.screen)}
-            style={{
-              borderRadius: dimensions.width * 0.5,
-              padding: dimensions.height * 0.019,
-              alignItems: 'center',
-              marginHorizontal: dimensions.width * 0.001,
-
-            }}
-          >
-            <Image
-              source={selectedScreen === button.screen ? button.selectedIconImage : button.iconImage}
+      {selectedBerlinScreen !== 'LoadingBerlin' && (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            height: dimensions.height * 0.12,
+            paddingHorizontal: dimensions.width * 0.05,
+            backgroundColor: '#404040',
+            width: dimensions.width,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            alignSelf: 'center',
+            zIndex: 5000,
+            paddingBottom: dimensions.height * 0.025,
+          }}
+        >
+          {homePagesButtons.map((button, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => setSelectedBerlinScreen(button.bthScreen)}
               style={{
-                width: dimensions.height * 0.03,
-                height: dimensions.height * 0.03,
-                textAlign: 'center'
-              }}
-              resizeMode="contain"
-            />
-            <Text
-              style={{
-                fontFamily: fontSfProTextRegular,
-                fontSize: dimensions.width * 0.028,
-                color: selectedScreen === button.screen ? '#0875E6' : '#999999',
-                marginTop: dimensions.height * 0.008,
-                fontWeight: 600
+                borderRadius: dimensions.width * 0.5,
+                padding: dimensions.height * 0.019,
+                alignItems: 'center',
+                marginHorizontal: dimensions.width * 0.001,
               }}
             >
-              {button.screen}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+              <Image
+                source={selectedBerlinScreen === button.bthScreen ? button.bthRedIcon : button.bthSilverIcon}
+                style={{
+                  width: dimensions.height * 0.028,
+                  height: dimensions.height * 0.028,
+                  textAlign: 'center'
+                }}
+                resizeMode="contain"
+              />
+              <Text
+                style={{
+                  fontFamily: fontDMSansRegular,
+                  fontSize: dimensions.width * 0.034,
+                  color: selectedBerlinScreen === button.bthScreen ? '#FF0000' : '#848484',
+                  marginTop: dimensions.height * 0.008,
+                  fontWeight: 400
+                }}
+              >
+                {button.bthScreenTitle}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </View>
   );
 };

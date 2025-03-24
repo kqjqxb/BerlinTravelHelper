@@ -1,8 +1,8 @@
 import React from 'react';
-import CopenhagenStack from './StackNavigator';
+import BerlinTravelHelperStack from './StackNavigator';
 
 function App() {
-  return <CopenhagenStack />;
+  return <BerlinTravelHelperStack />;
 }
 
 export default App;

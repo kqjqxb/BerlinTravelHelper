@@ -5,7 +5,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HomeScreen from './src/screens/HomeScreen';
-import OnboardingScreen from './src/screens/OnboardingScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { UserProvider, UserContext } from './src/context/UserContext';
@@ -16,7 +15,7 @@ import { loadUserData } from './src/redux/userSlice';
 
 const Stack = createNativeStackNavigator();
 
-const CopenhagenStack = () => {
+const BerlinTravelHelperStack = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>
@@ -32,64 +31,54 @@ const CopenhagenStack = () => {
 
 const AppNavigator = () => {
   const dispatch = useDispatch();
-  const [isOnboardWasVisible, setIsOnboardWasVisible] = useState(false);
   const { user, setUser } = useContext(UserContext);
 
-
-  const [initializingCopenhagenApp, setInitializingCopenhagenApp] = useState(true);
+  const [initializingBerlinTravelApp, setInitializingBerlinTravelApp] = useState(true);
 
   useEffect(() => {
     dispatch(loadUserData());
   }, [dispatch]);
 
   useEffect(() => {
-    const loadCopenhagenUser = async () => {
+    const loadBerlinTravelUser = async () => {
       try {
         const deviceId = await DeviceInfo.getUniqueId();
         const storageKey = `currentUser_${deviceId}`;
-        const storedCopenhagenUser = await AsyncStorage.getItem(storageKey);
-        const isCopenOnboardingVisible = await AsyncStorage.getItem('isCopenOnboardingVisible');
+        const storedBerlinTravelUser = await AsyncStorage.getItem(storageKey);
 
-        if (storedCopenhagenUser) {
-          setUser(JSON.parse(storedCopenhagenUser));
-          setIsOnboardWasVisible(false);
-        } else if (isCopenOnboardingVisible) {
-          setIsOnboardWasVisible(false);
-        } else {
-          setIsOnboardWasVisible(true);
-          await AsyncStorage.setItem('isCopenOnboardingVisible', 'true');
-        }
+        if (storedBerlinTravelUser) {
+          setUser(JSON.parse(storedBerlinTravelUser));
+        } 
       } catch (error) {
-        console.error('Error loading of cur user', error);
+        console.error('Error loading of berlinTravelHelper user', error);
       } finally {
-        setInitializingCopenhagenApp(false);
+        setInitializingBerlinTravelApp(false);
       }
     };
-    loadCopenhagenUser();
+    loadBerlinTravelUser();
   }, [setUser]);
 
-  if (initializingCopenhagenApp) {
+  if (initializingBerlinTravelApp) {
     return (
       <View style={{
-        backgroundColor: '#000000',
-        alignItems: 'center',
-        flex: 1,
         justifyContent: 'center',
+        backgroundColor: '#2E2E2E',
+        flex: 1,
+        alignItems: 'center',
       }}>
-        <ActivityIndicator size="large" color="white" />
+        <ActivityIndicator size="large" color="#FF0000" />
       </View>
     );
   }
 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName={isOnboardWasVisible ? 'OnboardingScreen' : 'Home'}>
+        <Stack.Navigator initialRouteName={'Home'}>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 
-export default CopenhagenStack;
+export default BerlinTravelHelperStack;

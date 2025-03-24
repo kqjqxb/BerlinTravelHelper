@@ -5,485 +5,441 @@ import {
     TouchableOpacity,
     Image,
     Dimensions,
-    Alert,
     TextInput,
     SafeAreaView,
     Linking,
-    Switch,
-    Modal,
     ScrollView,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ChevronLeftIcon, CheckIcon, PlusIcon, ChevronRightIcon } from 'react-native-heroicons/solid';
-import * as ImagePicker from 'react-native-image-picker';
-import { set } from 'date-fns';
+import {  ChevronRightIcon } from 'react-native-heroicons/solid';
 
+const fontDMSansRegular = 'DMSans-Regular';
 
-const fontSfProTextRegular = 'SFProText-Regular';
-
-
-const privacyAndTermsButtons = [
-    {
-        id: 1,
-        title: 'Terms of Use',
-        link: 'https://www.termsfeed.com/live/3c5660de-8725-41a1-ba75-5566a701b5db',
-        icon: require('../assets/icons/termsIcon.png')
-    },
+const privacyBerlinAndTermsBtns = [
     {
         id: 2,
         title: 'Privacy Policy',
-        link: 'https://www.termsfeed.com/live/b37ab603-57d4-4adb-831b-b422d55440e3',
-        icon: require('../assets/icons/privacyIcon.png')
+        link: '',
     },
-
+    {
+        id: 1,
+        title: 'Terms of Use',
+        link: '',
+    },
 ]
 
-const SettingsScreen = ({ selectedScreen, isNotificationEnabled, setNotificationEnabled, favorites, setFavorites }) => {
+const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
     const [dimensions, setDimensions] = useState(Dimensions.get('window'));
-    const [modalVisible, setModalVisible] = useState(false);
+    const [firstCurrencyAmount, setFirstCurrencyAmount] = useState('');
+    const [secondCurrencyAmount, setSecondCurrencyAmount] = useState('');
 
+    const [firstCurrencyIs, setFirstCurrencyIs] = useState('Dollars ($)');
+    const [secondCurrencyIs, setSecondCurrencyIs] = useState('Pound (£)');
 
+    const [firstConvertedResult, setFirstConvertedResult] = useState('');
+    const [secondConvertedResult, setSecondConvertedResult] = useState('');
 
-
-    const handleDeleteFavourite = async (id) => {
-        try {
-            const updatedFavs = favorites.filter(rec => rec.id !== id);
-            setFavorites(updatedFavs);
-            await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavs));
-        } catch (error) {
-            console.error("Error deleting Favorite:", error);
-        }
-    };
-
-
-
-
-    const toggleNotificationSwitch = () => {
-        const newValue = !isNotificationEnabled;
-        setNotificationEnabled(newValue);
-        saveSettings('isNotificationEnabled', newValue);
-    };
-
-
-    const saveSettings = async (key, value) => {
-        try {
-            await AsyncStorage.setItem(key, JSON.stringify(value));
-        } catch (error) {
-            console.error("Error saving settings:", error);
-        }
-    };
-
-    const loadSettings = async () => {
-        try {
-            const notificationValue = await AsyncStorage.getItem('isNotificationEnabled');
-            if (notificationValue !== null) setNotificationEnabled(JSON.parse(notificationValue));
-        } catch (error) {
-            console.error("Error loading settings:", error);
-        }
-    };
+    const [visited, setVisited] = useState([]);
 
     useEffect(() => {
-        loadSettings();
-    }, [isNotificationEnabled, selectedScreen]);
+        const fetchVisitedPlaces = async () => {
+            try {
+                const saved = await AsyncStorage.getItem('visited');
+                setVisited(saved ? JSON.parse(saved) : []);
+            } catch (error) {
+                console.error('error  visited:', error);
+            }
+        };
+
+        fetchVisitedPlaces();
+    }, [selectedBerlinScreen,]);
 
     return (
-        <View style={{
-            width: dimensions.width,
-            flex: 1,
-            zIndex: 1,
-            alignItems: 'center',
-            position: 'relative',
-            width: '100%',
-            justifyContent: 'flex-start',
-        }} >
-            <View style={{
-                width: '100%',
-                backgroundColor: '#151515',
-                borderRadius: dimensions.width * 0.05,
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <SafeAreaView style={{
+                width: dimensions.width,
+                flex: 1,
+                zIndex: 1,
                 alignItems: 'center',
-                paddingHorizontal: dimensions.width * 0.05,
-                paddingVertical: dimensions.height * 0.01,
-                flexDirection: 'row',
-                alignSelf: 'center',
-                padding: dimensions.width * 0.01,
-                paddingTop: dimensions.height * 0.057,
-                justifyContent: 'space-between',
-            }}>
-                <Text style={{
-                    fontFamily: fontSfProTextRegular,
-                    color: 'white',
-                    marginLeft: dimensions.width * 0.3,
-                    fontWeight: 700,
-                    alignSelf: 'center',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                    fontSize: dimensions.width * 0.064,
-                }}
-                >
-                    Settings
-                </Text>
-                <TouchableOpacity
-                    disabled={true}
-                    style={{
-                        opacity: 0,
-                    }}
-                    onPress={() => {
-
-                    }}>
-                    <Image
-                        source={require('../assets/icons/calendarIcon.png')}
-                        style={{
-                            width: dimensions.height * 0.03,
-                            textAlign: 'center',
-                            height: dimensions.height * 0.03,
-                            alignSelf: 'center',
-                            margin: dimensions.height * 0.014,
-                        }}
-                        resizeMode="contain"
-                    />
-                </TouchableOpacity>
-
-            </View>
-            <View style={{
-                marginTop: dimensions.height * 0.02,
+                position: 'relative',
                 width: '100%',
+                justifyContent: 'flex-start',
             }}>
-                {privacyAndTermsButtons.map((button) => (
-
-                    <TouchableOpacity
-                        key={button.id}
-                        onPress={() => {
-                            Linking.openURL(button.link);
-                        }}
-                        style={{
-                            backgroundColor: '#151515',
-                            alignItems: 'center',
-                            borderRadius: dimensions.width * 0.05,
-                            marginTop: dimensions.height * 0.008,
-                            alignSelf: 'center',
-                            width: '95%',
-                            flexDirection: 'row',
-                            justifyContent: 'flex-start',
-                            paddingVertical: dimensions.height * 0.028,
-                            paddingHorizontal: dimensions.width * 0.05,
-                        }}
+                <View style={{
+                    width: dimensions.width,
+                    borderBottomColor: '#FFFFFF80',
+                    borderBottomWidth: dimensions.height * 0.00055,
+                    alignSelf: 'center',
+                    marginBottom: dimensions.height * 0.01,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <Text style={{
+                        textAlign: 'center',
+                        fontFamily: fontDMSansRegular,
+                        fontWeight: 700,
+                        fontSize: dimensions.width * 0.05,
+                        alignItems: 'center',
+                        alignSelf: 'center',
+                        color: 'white',
+                        paddingBottom: dimensions.height * 0.014,
+                    }}
                     >
-                        <Image
-                            source={button.icon}
-                            style={{
-                                width: dimensions.height * 0.03,
-                                height: dimensions.height * 0.03,
-                                textAlign: 'center',
-                                alignSelf: 'center',
-                                marginRight: dimensions.width * 0.03,
-                            }}
-                            resizeMode='contain'
-                        />
-                        <Text
-                            style={{ fontFamily: fontSfProTextRegular, color: 'white', fontSize: dimensions.width * 0.04, textAlign: 'center', fontWeight: 700 }}>
-                            {button.title}
-                        </Text>
-                    </TouchableOpacity>
-                ))}
-
-
-                <TouchableOpacity
-                    onPress={() => {
-                        setModalVisible(true);
-                    }}
-                    style={{
-                        backgroundColor: '#151515',
-                        width: '95%',
-                        borderRadius: dimensions.width * 0.05,
-                        marginTop: dimensions.height * 0.008,
-                        alignSelf: 'center',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-start',
-                        paddingHorizontal: dimensions.width * 0.05,
-                        paddingVertical: dimensions.height * 0.028,
-                        alignItems: 'center',
-                    }}
-                >
-                    <Image
-                        source={require('../assets/icons/favouritesIcon.png')}
-                        style={{
-                            width: dimensions.height * 0.03,
-                            height: dimensions.height * 0.03,
-                            textAlign: 'center',
-                            alignSelf: 'center',
-                            marginRight: dimensions.width * 0.03,
-                        }}
-                        resizeMode='contain'
-                    />
-                    <Text
-                        style={{ fontFamily: fontSfProTextRegular, color: 'white', fontSize: dimensions.width * 0.04, textAlign: 'center', fontWeight: 700 }}>
-                        Favourites
+                        Settings
                     </Text>
-                </TouchableOpacity>
+                </View>
 
-
-                <TouchableOpacity
-                    onPress={() => {
-                    }}
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
                     style={{
-                        backgroundColor: '#151515',
-                        flexDirection: 'row',
-                        borderRadius: dimensions.width * 0.05,
-                        marginTop: dimensions.height * 0.008,
-                        alignSelf: 'center',
-                        width: '95%',
-                        paddingVertical: dimensions.height * 0.028,
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        paddingHorizontal: dimensions.width * 0.05,
+                        width: '100%',
+                    }}
+                    contentContainerStyle={{
+                        paddingBottom: dimensions.height * 0.25,
                     }}
                 >
                     <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        marginTop: dimensions.height * 0.01,
+                        width: dimensions.width * 0.93,
+                        alignSelf: 'center',
+                        backgroundColor: '#404040',
+                        borderRadius: dimensions.width * 0.05,
+                        paddingHorizontal: dimensions.width * 0.04,
+                        paddingVertical: dimensions.height * 0.016,
                     }}>
-
                         <Image
-                            source={require('../assets/icons/notificationsIcon.png')}
+                            source={require('../assets/images/settingsImage.png')}
                             style={{
-                                width: dimensions.height * 0.03,
-                                height: dimensions.height * 0.03,
-                                textAlign: 'center',
+                                width: dimensions.width * 0.37,
+                                height: dimensions.width * 0.37,
                                 alignSelf: 'center',
-                                marginRight: dimensions.width * 0.03,
                             }}
                             resizeMode='contain'
                         />
-                        <Text
-                            style={{ fontFamily: fontSfProTextRegular, color: 'white', fontSize: dimensions.width * 0.04, textAlign: 'center', fontWeight: 700 }}>
-                            Notifications
-                        </Text>
-                    </View>
 
-
-
-                    <Switch
-                        trackColor={{ false: '#948ea0', true: '#0875E6' }}
-                        thumbColor={'#FFFFFF'}
-                        ios_backgroundColor="#3E3E3E"
-                        onValueChange={toggleNotificationSwitch}
-                        value={isNotificationEnabled}
-                    />
-                </TouchableOpacity>
-            </View>
-
-            <Modal visible={modalVisible} transparent={true} animationType="slide">
-                <SafeAreaView
-                    style={{
-                        alignSelf: 'center',
-                        alignItems: 'center',
-                        height: dimensions.height,
-                        width: '100%',
-                        paddingHorizontal: dimensions.width * 0.05,
-                        shadowColor: '#000',
-                        shadowOffset: { width: 0, height: 2 },
-                        width: dimensions.width,
-                        backgroundColor: '#000000',
-                        zIndex: 1000,
-                        shadowOpacity: 0.25,
-                    }}
-                >
-                    <View style={{
-                        zIndex: 50,
-                        alignSelf: 'center',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        width: '97%',
-                    }}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                setModalVisible(false);
-                            }}
-                            style={{
-                                borderRadius: dimensions.width * 0.5,
-                                zIndex: 100,
-                                flexDirection: 'row',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
-                            <ChevronLeftIcon size={dimensions.height * 0.034} color='#0875E6' />
-                            <Text style={{
-                                fontFamily: fontSfProTextRegular,
-                                color: '#0875E6',
-                                fontWeight: 400,
-                                fontSize: dimensions.width * 0.043,
-                                alignItems: 'center',
-                                alignSelf: 'center',
-                                textAlign: 'center',
-                            }}
-                            >
-                                Back
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={{
-                        width: dimensions.width * 0.93,
-                        alignItems: 'center',
-                        alignSelf: 'center',
-                    }}>
                         <Text style={{
-                            fontFamily: fontSfProTextRegular,
-                            color: 'white',
-                            fontWeight: 700,
-                            fontSize: dimensions.width * 0.068,
+                            textAlign: 'left',
+                            fontFamily: fontDMSansRegular,
+                            fontWeight: 400,
+                            fontSize: dimensions.width * 0.043,
+                            marginTop: dimensions.height * 0.016,
                             alignSelf: 'flex-start',
-                            textAlign: 'center',
-                            marginTop: dimensions.height * 0.01,
+                            color: 'white',
+                            paddingBottom: dimensions.height * 0.014,
                         }}
                         >
-                            Favourites
+                            Currency Converter
                         </Text>
-                        {favorites.length === 0 ? (
-                            <Text
+
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            width: '100%',
+                            alignSelf: 'center',
+                        }}>
+                            <TextInput
+                                placeholder={`${firstCurrencyIs}`}
+                                value={firstCurrencyAmount}
+                                maxLength={7}
+                                onChangeText={(text) => {
+                                    setFirstCurrencyAmount(text);
+                                    const numericValue = parseFloat(text);
+                                    if (isNaN(numericValue)) {
+                                        setFirstConvertedResult('');
+                                    } else {
+                                        if (firstCurrencyIs === 'Dollars ($)') {
+                                            setFirstConvertedResult((numericValue * 0.93).toFixed(1));
+                                        } else {
+                                            setFirstConvertedResult((numericValue * 1.09).toFixed(1));
+                                        }
+                                    }
+                                }}
+                                placeholderTextColor="rgba(237, 237, 237, 0.85)"
+                                placeholderTextSize={dimensions.width * 0.03}
+                                keyboardType='numeric'
                                 style={{
-                                    fontSize: dimensions.width * 0.059,
-                                    fontFamily: fontSfProTextRegular,
+                                    maxWidth: dimensions.width * 0.8,
+                                    padding: dimensions.width * 0.03,
+                                    fontFamily: fontDMSansRegular,
+                                    fontSize: firstCurrencyAmount.length > 0 ? dimensions.width * 0.043 : dimensions.width * 0.037,
                                     color: 'white',
-                                    textAlign: 'center',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    fontWeight: 'bold',
-                                    fontWeight: 800,
-                                    marginTop: dimensions.height * 0.3,
+                                    height: dimensions.height * 0.059,
+                                    alignSelf: 'center',
+                                    width: dimensions.width * 0.34,
+                                    borderRadius: dimensions.width * 0.025,
+                                    backgroundColor: '#5A5A5A',
+                                }}
+                            />
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    const tempAmount = firstCurrencyAmount;
+                                    const tempCurrency = firstCurrencyIs;
+                                    setFirstCurrencyAmount(firstConvertedResult);
+                                    setFirstConvertedResult(tempAmount);
+
+                                    if (firstCurrencyIs === 'Dollars ($)') {
+                                        setFirstCurrencyIs('Euros (€)');
+                                    } else setFirstCurrencyIs('Dollars ($)');
+                                }}
+                                style={{
+                                    flex: 1
                                 }}>
-                                No favorites yet.
-                            </Text>
-                        ) : (
+                                <Image
+                                    source={require('../assets/icons/changeIcon.png')}
+                                    style={{
+                                        width: dimensions.width * 0.088,
+                                        height: dimensions.width * 0.088,
+                                        alignSelf: 'center',
+                                    }}
+                                    resizeMode='contain'
+                                />
+
+                            </TouchableOpacity>
 
                             <View style={{
-                                width: dimensions.width * 0.93,
-                                alignSelf: 'center',
-
+                                width: dimensions.width * 0.34,
+                                backgroundColor: '#5A5A5A',
+                                borderRadius: dimensions.width * 0.025,
+                                height: dimensions.height * 0.059,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingHorizontal: dimensions.width * 0.03,
                             }}>
-                                <ScrollView style={{ width: '100%', }}>
-                                    <View style={{
-                                        width: dimensions.width * 0.93,
-                                        alignSelf: 'center',
-                                        flex: 1,
-                                        marginTop: dimensions.height * 0.02,
-                                        marginBottom: dimensions.height * 0.16,
-                                    }}>
-
-                                        {favorites.map((item, index) => (
-                                            <TouchableOpacity
-                                                key={item.id}
-                                                onPress={() => {
-
-                                                }}
-                                                style={{
-                                                    alignSelf: 'center',
-                                                    width: dimensions.width * 0.93,
-                                                    marginBottom: dimensions.height * 0.014,
-                                                    zIndex: 500,
-                                                    backgroundColor: '#151515',
-                                                    padding: dimensions.width * 0.02,
-                                                    borderRadius: dimensions.width * 0.05,
-                                                }}
-                                            >
-                                                <View style={{
-                                                    flexDirection: 'row',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'center',
-                                                    width: '100%',
-                                                    alignSelf: 'center',
-                                                }}>
-                                                    <Text
-                                                        style={{
-                                                            fontFamily: fontSfProTextRegular,
-                                                            fontSize: dimensions.width * 0.043,
-                                                            color: 'white',
-                                                            padding: dimensions.width * 0.021,
-                                                            fontWeight: 600,
-                                                            maxWidth: dimensions.width * 0.6,
-                                                        }}
-                                                        numberOfLines={1}
-                                                        ellipsizeMode="tail"
-                                                    >
-                                                        {item.title}
-                                                    </Text>
-
-                                                    <TouchableOpacity onPress={() => handleDeleteFavourite(item.id)} style={{ zIndex: 1000, }}>
-
-                                                        <Image
-                                                            source={require('../assets/icons/fullBlueHeartIcon.png')}
-                                                            style={{
-                                                                width: dimensions.height * 0.064,
-                                                                height: dimensions.width * 0.064,
-                                                                marginTop: dimensions.height * 0.01,
-                                                                textAlign: 'center',
-                                                                alignItems: 'center',
-                                                            }}
-                                                            resizeMode="contain"
-                                                        />
-                                                    </TouchableOpacity>
-                                                </View>
-                                                <View style={{
-                                                    flexDirection: 'row',
-                                                    alignSelf: 'flex-start',
-                                                    justifyContent: 'center',
-                                                    alignItems: 'center',
-                                                    paddingTop: 0,
-                                                    paddingHorizontal: dimensions.width * 0.021,
-                                                }}>
-
-                                                    <Text
-                                                        style={{
-                                                            fontFamily: 'SFPro-Medium',
-                                                            fontSize: dimensions.width * 0.037,
-                                                            color: '#999999',
-                                                            opacity: 0.7,
-                                                            fontWeight: 500
-                                                        }}
-                                                    >
-                                                        {item.date}
-                                                    </Text>
-
-                                                    <Text
-                                                        style={{
-                                                            fontFamily: 'SFPro-Medium',
-                                                            fontSize: dimensions.width * 0.037,
-                                                            color: '#999999',
-                                                            opacity: 0.7,
-                                                            paddingHorizontal: dimensions.width * 0.016,
-                                                            fontWeight: 500
-                                                        }}
-                                                    >
-                                                        •
-                                                    </Text>
-
-
-                                                    <Text
-                                                        style={{
-                                                            fontFamily: 'SFPro-Medium',
-                                                            fontSize: dimensions.width * 0.037,
-                                                            color: '#999999',
-                                                            opacity: 0.7,
-                                                            fontWeight: 500
-                                                        }}
-                                                    >
-                                                        {item.time}
-                                                    </Text>
-                                                </View>
-                                            </TouchableOpacity>
-                                        ))}
-                                    </View>
-                                </ScrollView>
+                                <Text style={{
+                                    textAlign: 'left',
+                                    alignSelf: 'flex-start',
+                                    fontFamily: fontDMSansRegular,
+                                    fontWeight: 400,
+                                    fontSize: dimensions.width * 0.037,
+                                    color: 'white',
+                                }}>
+                                    {firstCurrencyAmount.replace(/\s/g, '').length === 0 && firstCurrencyIs === 'Dollars ($)' ? 'Euros (€)'
+                                        : firstCurrencyAmount.replace(/\s/g, '').length === 0 && firstCurrencyIs !== 'Dollars ($)' ? 'Dollars ($)' : firstConvertedResult} {firstCurrencyAmount.replace(/\s/g, '').length !== 0 ? (firstCurrencyIs === 'Dollars ($)' ? '(€)' : '($)') : ''}
+                                </Text>
                             </View>
-                        )}
+                        </View>
+
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            width: '100%',
+                            alignSelf: 'center',
+                            marginTop: dimensions.height * 0.021,
+                        }}>
+                            <TextInput
+                                placeholder={`${secondCurrencyIs}`}
+                                value={secondCurrencyAmount}
+                                maxLength={7}
+                                onChangeText={(text) => {
+                                    setSecondCurrencyAmount(text);
+                                    const numericValue = parseFloat(text);
+                                    if (isNaN(numericValue)) {
+                                        setSecondConvertedResult('');
+                                    } else {
+                                        if (secondCurrencyIs === 'Pound (£)') {
+                                            setSecondConvertedResult((numericValue * 1.2).toFixed(1));
+                                        } else {
+                                            setSecondConvertedResult((numericValue * 0.84).toFixed(1));
+                                        }
+                                    }
+                                }}
+                                placeholderTextColor="rgba(237, 237, 237, 0.85)"
+                                placeholderTextSize={dimensions.width * 0.03}
+                                keyboardType='numeric'
+                                style={{
+                                    maxWidth: dimensions.width * 0.8,
+                                    padding: dimensions.width * 0.03,
+                                    fontFamily: fontDMSansRegular,
+                                    fontSize: secondCurrencyAmount.length > 0 ? dimensions.width * 0.043 : dimensions.width * 0.037,
+                                    color: 'white',
+                                    height: dimensions.height * 0.059,
+                                    alignSelf: 'center',
+                                    width: dimensions.width * 0.34,
+                                    borderRadius: dimensions.width * 0.025,
+                                    backgroundColor: '#5A5A5A',
+                                }}
+                            />
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    const tempAmount = secondCurrencyAmount;
+                                    setSecondCurrencyAmount(secondConvertedResult);
+                                    setSecondConvertedResult(tempAmount);
+
+                                    if (secondCurrencyIs === 'Pound (£)') {
+                                        setSecondCurrencyIs('Euros (€)');
+                                    } else setSecondCurrencyIs('Pound (£)');
+                                }}
+                                style={{
+                                    flex: 1
+                                }}>
+                                <Image
+                                    source={require('../assets/icons/changeIcon.png')}
+                                    style={{
+                                        width: dimensions.width * 0.088,
+                                        height: dimensions.width * 0.088,
+                                        alignSelf: 'center',
+                                    }}
+                                    resizeMode='contain'
+                                />
+
+                            </TouchableOpacity>
+
+                            <View style={{
+                                width: dimensions.width * 0.34,
+                                backgroundColor: '#5A5A5A',
+                                borderRadius: dimensions.width * 0.025,
+                                height: dimensions.height * 0.059,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingHorizontal: dimensions.width * 0.03,
+                            }}>
+                                <Text style={{
+                                    textAlign: 'left',
+                                    alignSelf: 'flex-start',
+                                    fontFamily: fontDMSansRegular,
+                                    fontWeight: 400,
+                                    fontSize: dimensions.width * 0.037,
+                                    color: 'white',
+                                }}>
+                                    {secondCurrencyAmount.replace(/\s/g, '').length === 0 && secondCurrencyIs === 'Pound (£)' ? 'Euros (€)'
+                                        : secondCurrencyAmount.replace(/\s/g, '').length === 0 && secondCurrencyIs !== 'Pound (£)' ? 'Pound (£)' : secondConvertedResult} {secondCurrencyAmount.replace(/\s/g, '').length !== 0 ? (secondCurrencyIs === 'Pound (£)' ? '(€)' : '(£)') : ''}
+                                </Text>
+                            </View>
+                        </View>
 
                     </View>
-                </SafeAreaView>
-            </Modal>
 
-        </View>
+                    <View style={{
+                        marginTop: dimensions.height * 0.008,
+                        width: '100%',
+                    }}>
+                        {privacyBerlinAndTermsBtns.map((button) => (
+                            <TouchableOpacity
+                                key={button.id}
+                                onPress={() => {
+                                    Linking.openURL(button.link);
+                                }}
+                                style={{
+                                    backgroundColor: '#404040',
+                                    alignItems: 'center',
+                                    borderRadius: dimensions.width * 0.034,
+                                    marginBottom: dimensions.height * 0.008,
+                                    alignSelf: 'center',
+                                    width: dimensions.width * 0.93,
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    paddingVertical: dimensions.height * 0.019,
+                                    paddingHorizontal: dimensions.width * 0.05,
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontFamily: fontDMSansRegular,
+                                        color: 'white',
+                                        fontSize: dimensions.width * 0.043,
+                                        textAlign: 'center',
+                                        fontWeight: 400,
+                                    }}>
+                                    {button.title}
+                                </Text>
+                                <ChevronRightIcon size={dimensions.height * 0.025} color='white' />
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+
+                    <Text style={{
+                        textAlign: 'left',
+                        fontFamily: fontDMSansRegular,
+                        fontWeight: 400,
+                        fontSize: dimensions.width * 0.043,
+                        marginTop: dimensions.height * 0.019,
+                        alignSelf: 'flex-start',
+                        color: 'white',
+                        paddingHorizontal: dimensions.width * 0.05,
+                    }}
+                    >
+                        Visited Places
+                    </Text>
+                    {visited.length > 0 ? (
+                        visited.map((item, index) => (
+                            <View
+                                key={index}
+                                onPress={() => {
+                                }}
+                                style={{
+                                    alignSelf: 'center',
+                                    width: dimensions.width * 0.95,
+                                    marginBottom: dimensions.height * 0.021,
+                                    marginTop: dimensions.height * 0.01,
+                                    zIndex: 500
+                                }}
+                            >
+                                <Image
+                                    source={item.bthImage}
+                                    style={{
+                                        width: dimensions.width * 0.93,
+                                        height: dimensions.height * 0.25,
+                                        alignSelf: 'center',
+                                        textAlign: 'center',
+                                        borderRadius: dimensions.width * 0.03,
+                                    }}
+                                    resizeMode="stretch"
+                                />
+                                <View style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: dimensions.width * 0.97,
+                                }}>
+                                    <Text
+                                        style={{
+                                            fontFamily: fontDMSansRegular,
+                                            fontSize: dimensions.width * 0.046,
+                                            color: 'white',
+                                            padding: dimensions.width * 0.021,
+                                            fontWeight: 600,
+                                            maxWidth: dimensions.width * 0.9,
+                                        }}
+                                    >
+                                        {item.bthTitle}
+                                    </Text>
+                                </View>
+                            </View>
+                        ))
+
+                    ) : (
+                        <View style={{
+                            width: dimensions.width * 0.95,
+                            alignSelf: 'center',
+                            backgroundColor: '#404040',
+                            borderRadius: dimensions.width * 0.034,
+                            paddingVertical: dimensions.height * 0.019,
+                            paddingHorizontal: dimensions.width * 0.16,
+                            marginTop: dimensions.height * 0.01,
+                        }}>
+                            <Text style={{
+                                textAlign: 'center',
+                                fontFamily: fontDMSansRegular,
+                                fontWeight: 400,
+                                fontSize: dimensions.width * 0.043,
+                                alignSelf: 'center',
+                                color: 'white',
+                                paddingHorizontal: dimensions.width * 0.05,
+                            }}
+                            >
+                                You have no visited places yet
+                            </Text>
+                        </View>
+                    )}
+                </ScrollView>
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
     );
 };
 
