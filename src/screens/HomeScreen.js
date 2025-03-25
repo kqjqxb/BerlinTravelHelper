@@ -20,7 +20,7 @@ import BerlinWishlistsScreen from './BerlinWishlistsScreen';
 import CasScreen from './CasScreen';
 import LoadingBerlinTravelHelperScreen from './LoadingBerlinTravelHelperScreen';
 
-const homePagesButtons = [
+const homeBerlinScreensButtons = [
   {
     bthScreen: 'Home',
     bthSilverIcon: require('../assets/icons/bthSilverIcons/bthHomeIcon.png'),
@@ -261,7 +261,7 @@ const HomeScreen = () => {
             paddingBottom: dimensions.height * 0.025,
           }}
         >
-          {homePagesButtons.map((button, index) => (
+          {homeBerlinScreensButtons.map((button, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => setSelectedBerlinScreen(button.bthScreen)}

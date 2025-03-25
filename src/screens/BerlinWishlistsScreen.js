@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ChevronLeftIcon } from 'react-native-heroicons/solid';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import * as ImagePicker from 'react-native-image-picker';
 import popularSouvenirsData from '../components/popularSouvenirsData';
 
@@ -30,34 +29,32 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
     const [berlinWishlists, setBerlinWishlists] = useState([]);
     const [detailsType, setDetailsType] = useState('');
     const wishlistScrollViewRef = useRef(null);
-    const swipeableRefs = useRef(new Map());
 
     const [price, setPrice] = useState('');
     const [whereToBuy, setWhereToBuy] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
     const [wishlistImage, setWishlistImage] = useState('');
 
-    const removeChecklist = async (checklistToRemove) => {
+    const deleteBerlinWishlist = async (checklistToRemove) => {
         try {
-            const updatedChecklists = berlinWishlists.filter(list =>
-                !(list.berlinTitle === checklistToRemove.berlinTitle && list.description === checklistToRemove.description && list.id === checklistToRemove.id)
+            const updatedBerlinWishlists = berlinWishlists.filter(bwList =>
+                !(bwList.berlinTitle === checklistToRemove.berlinTitle && bwList.description === checklistToRemove.description && bwList.id === checklistToRemove.id)
             );
-            await AsyncStorage.setItem('berlinWishlists', JSON.stringify(updatedChecklists));
-            setBerlinWishlists(updatedChecklists);
+            await AsyncStorage.setItem('berlinWishlists', JSON.stringify(updatedBerlinWishlists));
+            setBerlinWishlists(updatedBerlinWishlists);
             setModalDetailsVisible(false);
         } catch (error) {
-            console.error('Error removing checklist:', error);
-            Alert.alert('Error', 'Failed to remove checklist from berlinWishlists.');
+            console.error('Error removing berlin wishlist:', error);
+            Alert.alert('Error', 'Failed to remove berlin wishlist from berlinWishlists.');
         }
     };
-
 
     const saveBerlinWishlist = async () => {
         try {
             const existingBerlinWishlists = await AsyncStorage.getItem('berlinWishlists');
             const berlinWishlists = existingBerlinWishlists ? JSON.parse(existingBerlinWishlists) : [];
 
-            const maxBerlinId = berlinWishlists.length > 0 ? Math.max(...berlinWishlists.map(list => list.id)) : 0;
+            const maxBerlinId = berlinWishlists.length > 0 ? Math.max(...berlinWishlists.map(bwList => bwList.id)) : 0;
 
             const newBerlinWishlist = {
                 id: maxBerlinId + 1,
@@ -88,7 +85,6 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
         }
     };
 
-
     useEffect(() => {
         const loadBerlinWishlists = async () => {
             try {
@@ -110,21 +106,21 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
         }
     }, [modalVisible]);
 
-    const handleCoinImagePicker = () => {
+    const handleBerlWlistImagePicker = () => {
         ImagePicker.launchImageLibrary({ mediaType: 'photo' }, (response) => {
             if (response.didCancel) {
             } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
+                console.log('Berlin Travel Helper ImagePicker Error: ', response.error);
             } else {
                 setWishlistImage(response.assets[0].uri);
             }
         });
     };
 
-    const handleDeleteCollectionImage = () => {
+    const handleDeleteBerlWlistImage = () => {
         Alert.alert(
             "Delete image",
-            "Are you sure you want to delete image of wishlist item?",
+            "Are you sure you want to delete image of your wishlist item?",
             [
                 {
                     text: "Cancel",
@@ -145,30 +141,30 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
         <SafeAreaView style={{
             width: dimensions.width,
             flex: 1,
-            alignItems: 'center',
+            zIndex: 1,
             justifyContent: 'flex-start',
             position: 'relative',
             width: '100%',
-            zIndex: 1,
+            alignItems: 'center',
         }} >
             <View style={{
-                width: dimensions.width,
-                borderBottomColor: '#FFFFFF80',
-                borderBottomWidth: dimensions.height * 0.00055,
-                alignSelf: 'center',
                 marginBottom: dimensions.height * 0.01,
+                width: dimensions.width,
+                alignSelf: 'center',
+                borderBottomColor: '#FFFFFF80',
                 justifyContent: 'center',
+                borderBottomWidth: dimensions.height * 0.00055,
                 alignItems: 'center',
             }}>
                 <Text style={{
-                    textAlign: 'center',
+                    alignItems: 'center',
                     fontFamily: fontDMSansRegular,
                     fontWeight: 700,
                     fontSize: dimensions.width * 0.05,
-                    alignItems: 'center',
-                    alignSelf: 'center',
+                    textAlign: 'center',
                     color: 'white',
                     paddingBottom: dimensions.height * 0.014,
+                    alignSelf: 'center',
                 }}
                 >
                     Wish-list
@@ -176,14 +172,14 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
             </View>
 
             <Text style={{
-                textAlign: 'left',
+                paddingHorizontal: dimensions.width * 0.05,
                 fontFamily: fontDMSansRegular,
+                color: 'white',
                 fontWeight: 400,
                 fontSize: dimensions.width * 0.043,
                 marginTop: dimensions.height * 0.016,
                 alignSelf: 'flex-start',
-                color: 'white',
-                paddingHorizontal: dimensions.width * 0.05,
+                textAlign: 'left',
             }}
             >
                 Popular souvenirs
@@ -218,11 +214,11 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                         <Image
                             source={popularSouvenir.psdImage}
                             style={{
-                                width: dimensions.width * 0.93,
+                                borderRadius: dimensions.width * 0.03,
                                 height: dimensions.height * 0.25,
                                 alignSelf: 'center',
+                                width: dimensions.width * 0.93,
                                 textAlign: 'center',
-                                borderRadius: dimensions.width * 0.03,
                             }}
                             resizeMode="stretch"
                         />
@@ -234,12 +230,12 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                         }}>
                             <Text
                                 style={{
-                                    fontFamily: fontDMSansRegular,
-                                    fontSize: dimensions.width * 0.046,
                                     color: 'white',
+                                    fontFamily: fontDMSansRegular,
+                                    maxWidth: dimensions.width * 0.9,
                                     padding: dimensions.width * 0.021,
                                     fontWeight: 600,
-                                    maxWidth: dimensions.width * 0.9,
+                                    fontSize: dimensions.width * 0.046,
                                 }}
                             >
                                 {popularSouvenir.psdTitle}
@@ -249,16 +245,18 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                 ))}
 
                 <Text style={{
-                    textAlign: 'left',
+                    paddingHorizontal: dimensions.width * 0.05,
+                    marginTop: dimensions.height * 0.03,
                     fontFamily: fontDMSansRegular,
                     fontWeight: 400,
                     fontSize: dimensions.width * 0.043,
                     alignSelf: 'flex-start',
                     color: 'white',
-                    paddingHorizontal: dimensions.width * 0.05,
+                    textAlign: 'left',
+                    textDecorationLine: 'underline',
                 }}
                 >
-                    Your wish-list
+                    Your wish-list:
                 </Text>
 
                 {berlinWishlists.length !== 0 ? (
@@ -310,12 +308,12 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                                     }}>
                                         <Text
                                             style={{
+                                                fontWeight: 400,
                                                 fontFamily: fontDMSansRegular,
-                                                fontSize: dimensions.width * 0.037,
+                                                paddingVertical: dimensions.height * 0.014,
                                                 color: 'white',
                                                 paddingHorizontal: dimensions.width * 0.025,
-                                                paddingVertical: dimensions.height * 0.014,
-                                                fontWeight: 400,
+                                                fontSize: dimensions.width * 0.037,
                                                 maxWidth: dimensions.width * 0.9,
                                             }}
                                         >
@@ -332,12 +330,12 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                                 }}>
                                     <Text
                                         style={{
-                                            fontFamily: fontDMSansRegular,
+                                            maxWidth: dimensions.width * 0.9,
                                             fontSize: dimensions.width * 0.046,
                                             color: 'white',
                                             padding: dimensions.width * 0.021,
+                                            fontFamily: fontDMSansRegular,
                                             fontWeight: 600,
-                                            maxWidth: dimensions.width * 0.9,
                                         }}
                                     >
                                         {berlWishlist.title}
@@ -349,14 +347,14 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                         <TouchableOpacity
                             onPress={() => { setModalVisible(true) }}
                             style={{
-                                width: dimensions.width * 0.88,
+                                marginTop: dimensions.height * 0.025,
+                                alignItems: 'center',
                                 height: dimensions.height * 0.07,
                                 backgroundColor: '#FF0000',
                                 borderRadius: dimensions.width * 0.037,
                                 justifyContent: 'center',
-                                alignItems: 'center',
                                 alignSelf: 'center',
-                                marginTop: dimensions.height * 0.025,
+                                width: dimensions.width * 0.88,
                             }}
                         >
                             <Text
@@ -365,7 +363,6 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                                     fontSize: dimensions.width * 0.044,
                                     color: 'white',
                                     fontWeight: 700,
-
                                 }}
                             >
                                 Add
@@ -375,12 +372,12 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                 ) : (
                     <View style={{
                         width: dimensions.width * 0.95,
-                        alignSelf: 'center',
+                        paddingHorizontal: dimensions.width * 0.05,
                         backgroundColor: '#404040',
                         borderRadius: dimensions.width * 0.034,
                         paddingVertical: dimensions.height * 0.025,
-                        paddingHorizontal: dimensions.width * 0.05,
                         marginTop: dimensions.height * 0.02,
+                        alignSelf: 'center',
                     }}>
                         <Text
                             style={{
@@ -400,14 +397,14 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                         <TouchableOpacity
                             onPress={() => { setModalVisible(true) }}
                             style={{
-                                width: dimensions.width * 0.88,
+                                alignSelf: 'center',
                                 height: dimensions.height * 0.07,
                                 backgroundColor: '#FF0000',
                                 borderRadius: dimensions.width * 0.037,
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                alignSelf: 'center',
                                 marginTop: dimensions.height * 0.025,
+                                width: dimensions.width * 0.88,
                             }}
                         >
                             <Text
@@ -429,30 +426,27 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
             <Modal visible={modalVisible} transparent={true} animationType="slide">
                 <SafeAreaView
                     style={{
+                        zIndex: 1000,
                         alignSelf: 'center',
-                        alignItems: 'center',
                         width: '100%',
                         paddingHorizontal: dimensions.width * 0.05,
-                        shadowColor: '#000',
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.25,
                         width: dimensions.width,
-                        zIndex: 1000,
                         backgroundColor: '#2E2E2E',
                         height: dimensions.height,
+                        alignItems: 'center',
                     }}
                 >
                     <View style={{
+                        paddingBottom: dimensions.height * 0.01,
                         zIndex: 50,
+                        borderBottomColor: '#FFFFFF80',
                         alignSelf: 'center',
-                        alignItems: 'center',
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         width: dimensions.width,
                         paddingHorizontal: dimensions.width * 0.019,
-                        borderBottomColor: '#FFFFFF80',
                         borderBottomWidth: dimensions.height * 0.00055,
-                        paddingBottom: dimensions.height * 0.01,
+                        alignItems: 'center',
                     }}>
                         <TouchableOpacity
                             onPress={() => {
@@ -467,13 +461,13 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                             }}>
                             <ChevronLeftIcon size={dimensions.height * 0.034} color='#FF0000' />
                             <Text style={{
-                                fontFamily: fontDMSansRegular,
+                                textAlign: 'center',
                                 color: '#FF0000',
                                 fontWeight: 400,
                                 fontSize: dimensions.width * 0.043,
                                 alignItems: 'center',
+                                fontFamily: fontDMSansRegular,
                                 alignSelf: 'center',
-                                textAlign: 'center',
                             }}
                             >
                                 Back
@@ -499,14 +493,14 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                         }}>
                             {wishlistImage === '' || !wishlistImage ? (
                                 <TouchableOpacity
-                                    onPress={() => handleCoinImagePicker()}
+                                    onPress={() => handleBerlWlistImagePicker()}
                                     style={{
+                                        marginTop: dimensions.height * 0.01,
                                         borderRadius: dimensions.width * 0.5,
-                                        backgroundColor: '#404040',
+                                        alignSelf: 'center',
                                         width: dimensions.width * 0.4,
                                         height: dimensions.width * 0.4,
-                                        alignSelf: 'center',
-                                        marginTop: dimensions.height * 0.01,
+                                        backgroundColor: '#404040',
                                     }}>
                                     <Image
                                         source={require('../assets/images/deleteWishlistImage.png')}
@@ -523,7 +517,7 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                             ) : (
                                 <TouchableOpacity
                                     onPress={() => {
-                                        handleDeleteCollectionImage();
+                                        handleDeleteBerlWlistImage();
                                     }}
                                     style={{
                                         alignSelf: 'center',
@@ -532,10 +526,10 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                                     <Image
                                         source={{ uri: wishlistImage }}
                                         style={{
-                                            width: dimensions.width * 0.4,
                                             height: dimensions.width * 0.4,
                                             borderRadius: dimensions.width * 0.5,
                                             alignSelf: 'center',
+                                            width: dimensions.width * 0.4,
                                         }}
                                         resizeMode='stretch'
                                     />
@@ -558,20 +552,20 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                                 onChangeText={setBerlinTitle}
                                 placeholderTextColor="#FFFFFF80"
                                 style={{
-                                    flexDirection: 'row',
+                                    marginTop: dimensions.height * 0.01,
+                                    color: 'white',
                                     justifyContent: 'space-between',
-                                    alignItems: 'center',
                                     paddingVertical: dimensions.width * 0.035,
                                     paddingHorizontal: dimensions.width * 0.04,
                                     backgroundColor: '#404040',
                                     borderRadius: dimensions.width * 0.03,
                                     width: '100%',
-                                    color: 'white',
+                                    flexDirection: 'row',
                                     fontFamily: fontDMSansRegular,
                                     fontSize: dimensions.width * 0.041,
                                     fontWeight: 400,
                                     textAlign: 'left',
-                                    marginTop: dimensions.height * 0.01,
+                                    alignItems: 'center',
                                 }}
                             />
 
@@ -581,21 +575,21 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                                 onChangeText={setDescription}
                                 placeholderTextColor="#FFFFFF80"
                                 style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between',
+                                    height: dimensions.height * 0.16,
                                     alignItems: 'center',
                                     paddingVertical: dimensions.width * 0.035,
-                                    paddingHorizontal: dimensions.width * 0.04,
                                     backgroundColor: '#404040',
                                     borderRadius: dimensions.width * 0.03,
                                     width: '100%',
-                                    height: dimensions.height * 0.16,
-                                    color: 'white',
-                                    fontFamily: fontDMSansRegular,
-                                    fontSize: dimensions.width * 0.041,
-                                    fontWeight: 400,
                                     textAlign: 'left',
                                     marginTop: dimensions.height * 0.01,
+                                    fontFamily: fontDMSansRegular,
+                                    color: 'white',
+                                    fontSize: dimensions.width * 0.041,
+                                    paddingHorizontal: dimensions.width * 0.04,
+                                    fontWeight: 400,
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
                                 }}
                                 multiline={true}
                                 textAlign='flex-start'
@@ -608,20 +602,20 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                                 onChangeText={setPrice}
                                 placeholderTextColor="#FFFFFF80"
                                 style={{
+                                    fontWeight: 400,
                                     flexDirection: 'row',
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
                                     paddingVertical: dimensions.width * 0.035,
                                     paddingHorizontal: dimensions.width * 0.04,
-                                    backgroundColor: '#404040',
                                     borderRadius: dimensions.width * 0.03,
-                                    width: '100%',
-                                    color: 'white',
-                                    fontFamily: fontDMSansRegular,
                                     fontSize: dimensions.width * 0.041,
-                                    fontWeight: 400,
-                                    textAlign: 'left',
+                                    color: 'white',
                                     marginTop: dimensions.height * 0.01,
+                                    backgroundColor: '#404040',
+                                    fontFamily: fontDMSansRegular,
+                                    textAlign: 'left',
+                                    width: '100%',
                                 }}
                             />
 
@@ -631,31 +625,31 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                                 onChangeText={setWhereToBuy}
                                 placeholderTextColor="#FFFFFF80"
                                 style={{
+                                    paddingVertical: dimensions.width * 0.035,
                                     flexDirection: 'row',
                                     justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    paddingVertical: dimensions.width * 0.035,
+                                    textAlign: 'left',
                                     paddingHorizontal: dimensions.width * 0.04,
+                                    alignItems: 'center',
                                     backgroundColor: '#404040',
-                                    borderRadius: dimensions.width * 0.03,
                                     width: '100%',
                                     color: 'white',
                                     fontFamily: fontDMSansRegular,
                                     fontSize: dimensions.width * 0.041,
-                                    fontWeight: 400,
-                                    textAlign: 'left',
                                     marginTop: dimensions.height * 0.01,
+                                    fontWeight: 400,
+                                    borderRadius: dimensions.width * 0.03,
                                 }}
                             />
 
                             <Text style={{
-                                textAlign: 'left',
-                                fontFamily: fontDMSansRegular,
-                                fontWeight: 400,
-                                fontSize: dimensions.width * 0.043,
-                                alignSelf: 'flex-start',
                                 color: 'white',
                                 marginTop: dimensions.height * 0.03,
+                                fontFamily: fontDMSansRegular,
+                                alignSelf: 'flex-start',
+                                fontWeight: 400,
+                                fontSize: dimensions.width * 0.043,
+                                textAlign: 'left',
                             }}
                             >
                                 Status
@@ -666,25 +660,25 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                                     onPress={() => setSelectedStatus(status)}
                                     key={index}
                                     style={{
-                                        width: dimensions.width * 0.93,
-                                        alignItems: 'center',
-                                        alignSelf: 'center',
-                                        justifyContent: 'center',
+                                        borderWidth: selectedStatus === status ? dimensions.width * 0.01 : 0,
                                         backgroundColor: '#404040',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: dimensions.width * 0.93,
                                         borderRadius: dimensions.width * 0.034,
                                         marginTop: dimensions.height * 0.01,
                                         height: dimensions.height * 0.059,
                                         borderColor: '#FF0000',
-                                        borderWidth: selectedStatus === status ? dimensions.width * 0.01 : 0,
+                                        alignSelf: 'center',
                                     }}>
                                     <Text style={{
-                                        textAlign: 'left',
+                                        alignSelf: 'center',
                                         fontFamily: fontDMSansRegular,
                                         fontWeight: 400,
                                         fontSize: dimensions.width * 0.043,
-                                        alignSelf: 'center',
-                                        color: 'white',
+                                        textAlign: 'left',
                                         paddingHorizontal: dimensions.width * 0.05,
+                                        color: 'white',
                                     }}
                                     >
                                         {status}
@@ -698,15 +692,15 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                             disabled={berlinTitle === '' || description === '' || price === '' || whereToBuy === '' || selectedStatus === '' || wishlistImage === '' || !wishlistImage}
                             onPress={saveBerlinWishlist}
                             style={{
+                                alignSelf: 'center',
                                 width: dimensions.width * 0.93,
                                 height: dimensions.height * 0.064,
-                                backgroundColor: berlinTitle === '' || description === '' || price === '' || whereToBuy === '' || selectedStatus === '' || wishlistImage === '' || !wishlistImage ? '#939393' : '#FF0000',
                                 borderRadius: dimensions.width * 0.037,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                alignSelf: 'center',
-                                opacity: berlinTitle === '' || description === '' ? 0.5 : 1,
                                 marginTop: dimensions.height * 0.025,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                opacity: berlinTitle === '' || description === '' ? 0.5 : 1,
+                                backgroundColor: berlinTitle === '' || description === '' || price === '' || whereToBuy === '' || selectedStatus === '' || wishlistImage === '' || !wishlistImage ? '#939393' : '#FF0000',
                             }}
                         >
                             <Text
@@ -739,12 +733,12 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                     height: dimensions.height,
                 }}>
                     <View style={{
-                        width: dimensions.width * 0.9,
+                        paddingBottom: dimensions.height * 0.014,
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         alignSelf: 'center',
-                        paddingBottom: dimensions.height * 0.014,
+                        width: dimensions.width * 0.9,
                     }}>
                         <TouchableOpacity
                             onPress={() => {
@@ -784,34 +778,34 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                                 ? selectedWishList?.psdImage
                                 : { uri: selectedWishList?.image }}
                             style={{
-                                width: dimensions.width,
+                                borderTopRightRadius: 0,
+                                borderTopLeftRadius: 0,
                                 height: dimensions.height * 0.34,
                                 borderRadius: dimensions.width * 0.055555,
                                 alignSelf: 'center',
                                 marginTop: dimensions.height * 0.02,
-                                borderTopLeftRadius: 0,
-                                borderTopRightRadius: 0,
+                                width: dimensions.width,
                             }}
                             resizeMode='stretch'
                         />
 
                         {detailsType !== 'popularSouvenir' && (
                             <View style={{
-                                backgroundColor: '#FF0000',
-                                marginTop: dimensions.height * 0.021,
-                                marginLeft: dimensions.width * 0.05,
-                                alignSelf: 'flex-start',
                                 borderRadius: dimensions.width * 0.019,
+                                marginTop: dimensions.height * 0.021,
+                                alignSelf: 'flex-start',
+                                marginLeft: dimensions.width * 0.05,
+                                backgroundColor: '#FF0000',
                             }}>
                                 <Text
                                     style={{
-                                        fontFamily: fontDMSansRegular,
                                         fontSize: dimensions.width * 0.04,
+                                        fontFamily: fontDMSansRegular,
+                                        maxWidth: dimensions.width * 0.9,
                                         color: 'white',
                                         paddingHorizontal: dimensions.width * 0.03,
                                         paddingVertical: dimensions.height * 0.014,
                                         fontWeight: 400,
-                                        maxWidth: dimensions.width * 0.9,
                                     }}
                                 >
                                     {selectedWishList?.selectedStatus}
@@ -821,98 +815,98 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
 
                         <Text
                             style={{
-                                fontFamily: fontDMSansRegular,
+                                marginTop: dimensions.height * 0.012,
                                 color: 'white',
+                                fontWeight: 600,
                                 fontSize: dimensions.width * 0.075,
                                 textAlign: 'left',
                                 alignSelf: 'flex-start',
-                                fontWeight: 600,
+                                fontFamily: fontDMSansRegular,
                                 paddingHorizontal: dimensions.width * 0.05,
-                                marginTop: dimensions.height * 0.012,
                             }}>
                             {detailsType === 'popularSouvenir' ? selectedWishList?.psdTitle : selectedWishList?.title}
                         </Text>
 
                         <Text
                             style={{
+                                alignSelf: 'flex-start',
                                 fontFamily: fontDMSansRegular,
                                 color: 'rgba(255, 255, 255, 0.5)',
-                                fontSize: dimensions.width * 0.037,
-                                textAlign: 'left',
-                                alignSelf: 'flex-start',
-                                fontWeight: 400,
-                                paddingHorizontal: dimensions.width * 0.05,
                                 marginTop: dimensions.height * 0.021,
+                                paddingHorizontal: dimensions.width * 0.05,
+                                textAlign: 'left',
+                                fontWeight: 400,
+                                fontSize: dimensions.width * 0.037,
                             }}>
                             Description
                         </Text>
 
                         <Text
                             style={{
-                                fontFamily: fontDMSansRegular,
+                                marginTop: dimensions.height * 0.01,
                                 color: 'white',
                                 fontSize: dimensions.width * 0.04,
-                                textAlign: 'left',
+                                fontFamily: fontDMSansRegular,
                                 alignSelf: 'flex-start',
                                 fontWeight: 400,
                                 paddingHorizontal: dimensions.width * 0.05,
-                                marginTop: dimensions.height * 0.01,
+                                textAlign: 'left',
                             }}>
                             {detailsType === 'popularSouvenir' ? selectedWishList?.psdDescription : selectedWishList?.description}
                         </Text>
 
                         <Text
                             style={{
-                                fontFamily: fontDMSansRegular,
+                                marginTop: dimensions.height * 0.021,
                                 color: 'rgba(255, 255, 255, 0.5)',
-                                fontSize: dimensions.width * 0.037,
                                 textAlign: 'left',
+                                fontSize: dimensions.width * 0.037,
                                 alignSelf: 'flex-start',
                                 fontWeight: 400,
                                 paddingHorizontal: dimensions.width * 0.05,
-                                marginTop: dimensions.height * 0.021,
+                                fontFamily: fontDMSansRegular,
                             }}>
                             Price
                         </Text>
 
                         <Text
                             style={{
-                                fontFamily: fontDMSansRegular,
+                                marginTop: dimensions.height * 0.01,
                                 color: 'white',
                                 fontSize: dimensions.width * 0.04,
+                                paddingHorizontal: dimensions.width * 0.05,
                                 textAlign: 'left',
                                 alignSelf: 'flex-start',
                                 fontWeight: 400,
-                                paddingHorizontal: dimensions.width * 0.05,
-                                marginTop: dimensions.height * 0.01,
+                                fontFamily: fontDMSansRegular,
                             }}>
                             {detailsType === 'popularSouvenir' ? selectedWishList?.psdPrice : selectedWishList?.price} €
                         </Text>
 
                         <Text
                             style={{
-                                fontFamily: fontDMSansRegular,
-                                color: 'rgba(255, 255, 255, 0.5)',
-                                fontSize: dimensions.width * 0.037,
-                                textAlign: 'left',
-                                alignSelf: 'flex-start',
-                                fontWeight: 400,
                                 paddingHorizontal: dimensions.width * 0.05,
                                 marginTop: dimensions.height * 0.021,
+                                color: 'rgba(255, 255, 255, 0.5)',
+                                fontSize: dimensions.width * 0.037,
+                                fontWeight: 400,
+                                textAlign: 'left',
+                                alignSelf: 'flex-start',
+                                fontFamily: fontDMSansRegular,
                             }}>
                             Where to buy
                         </Text>
 
                         <Text
                             style={{
-                                fontFamily: fontDMSansRegular,
-                                color: 'white',
+                                marginTop: dimensions.height * 0.01,
+                                paddingHorizontal: dimensions.width * 0.05,
                                 fontSize: dimensions.width * 0.04,
                                 textAlign: 'left',
                                 alignSelf: 'flex-start',
+                                color: 'white',
                                 fontWeight: 400,
-                                paddingHorizontal: dimensions.width * 0.05,
-                                marginTop: dimensions.height * 0.01,
+                                fontFamily: fontDMSansRegular,
                             }}>
                             {detailsType === 'popularSouvenir' ? selectedWishList?.psdWhereToBuy : selectedWishList?.whereToBuy}
                         </Text>
@@ -921,25 +915,25 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                             <TouchableOpacity
                                 disabled={false}
                                 onPress={() => {
-                                    removeChecklist(selectedWishList);
+                                    deleteBerlinWishlist(selectedWishList);
                                 }}
                                 style={{
-                                    width: dimensions.width * 0.93,
+                                    marginTop: dimensions.height * 0.025,
                                     height: dimensions.height * 0.064,
                                     backgroundColor: '#FF0000',
+                                    alignSelf: 'center',
                                     borderRadius: dimensions.width * 0.037,
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    alignSelf: 'center',
-                                    marginTop: dimensions.height * 0.025,
+                                    width: dimensions.width * 0.93,
                                 }}
                             >
                                 <Text
                                     style={{
+                                        fontWeight: 700,
                                         fontFamily: fontDMSansRegular,
                                         fontSize: dimensions.width * 0.05,
                                         color: 'white',
-                                        fontWeight: 700,
                                     }}
                                 >
                                     Delete

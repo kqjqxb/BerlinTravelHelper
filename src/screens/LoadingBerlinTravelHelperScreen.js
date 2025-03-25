@@ -14,7 +14,6 @@ const LoadingBerlinTravelHelperScreen = ({ setSelectedBerlinScreen }) => {
   const textAnim = useRef(new Animated.Value(dimensions.width)).current;
 
   useEffect(() => {
-    // Запуск анімації мерехтіння
     Animated.loop(
       Animated.sequence([
         Animated.timing(animatedOpacity, {
@@ -32,7 +31,6 @@ const LoadingBerlinTravelHelperScreen = ({ setSelectedBerlinScreen }) => {
   }, [animatedOpacity]);
 
   useEffect(() => {
-    // Анімація обертання проти годинникової стрілки (одне обертання за 3 сек)
     Animated.loop(
       Animated.timing(rotateAnim, {
         toValue: 1,
@@ -60,38 +58,38 @@ const LoadingBerlinTravelHelperScreen = ({ setSelectedBerlinScreen }) => {
 
   return (
     <View style={{
-      flex: 1,
+      backgroundColor: '#2E2E2E',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#2E2E2E'
+      flex: 1,
     }}>
       <Animated.Image
         source={require('../assets/images/berlinTravelHelpreLoader.png')}
         resizeMode='contain'
         style={{
-          width: dimensions.width * 0.7,
           height: dimensions.width * 0.7,
           opacity: animatedOpacity,
+          width: dimensions.width * 0.7,
           transform: [{
             rotate: rotateAnim.interpolate({
               inputRange: [0, 1],
-              outputRange: ['0deg', '-360deg']  // проти годинникової стрілки
+              outputRange: ['0deg', '-360deg']
             })
           }]
         }}
       />
       <Animated.Text style={{
+        fontSize: dimensions.width * 0.1,
         transform: [{ translateX: textAnim }],
-        textAlign: 'center',
         fontFamily: fontDMSansRegular,
         fontWeight: 700,
-        fontSize: dimensions.width * 0.1,
+        textAlign: 'center',
         alignItems: 'center',
         alignSelf: 'center',
         color: 'white',
         paddingBottom: dimensions.height * 0.014,
-        marginBottom: dimensions.height * 0.014,
         paddingHorizontal: dimensions.width * 0.1,
+        marginBottom: dimensions.height * 0.014,
       }}>
         Berlin Travel Helper
       </Animated.Text>

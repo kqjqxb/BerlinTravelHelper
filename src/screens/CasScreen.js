@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Dimensions,
@@ -16,7 +15,7 @@ import { ChevronLeftIcon } from 'react-native-heroicons/solid';
 
 const fontDMSansRegular = 'DMSans-Regular';
 
-const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBerlinPlace }) => {
+const CasScreen = ({  }) => {
 
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
 
@@ -25,7 +24,7 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
   const [selectedCasi, setSelectedCasi] = useState(null);
   const scrollViewRef = useRef(null);
 
-  const getDataByCategory = (category) => {
+  const getCasDataByCategory = (category) => {
     switch (category) {
       case 'All':
         return casData;
@@ -40,11 +39,7 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
     }
   };
 
-  const data = getDataByCategory(selectedEventCategory);
-
-  useEffect(() => {
-    console.log('data:', data);
-  }, [data])
+  const casosData = getCasDataByCategory(selectedEventCategory);
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -59,23 +54,23 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
       width: dimensions.width
     }}>
       <View style={{
+        justifyContent: 'center',
         width: dimensions.width,
-        borderBottomColor: '#FFFFFF80',
         borderBottomWidth: dimensions.height * 0.00055,
         alignSelf: 'center',
         marginBottom: dimensions.height * 0.01,
-        justifyContent: 'center',
         alignItems: 'center',
+        borderBottomColor: '#FFFFFF80',
       }}>
         <Text style={{
-          textAlign: 'center',
+          alignItems: 'center',
           fontFamily: fontDMSansRegular,
           fontWeight: 700,
           fontSize: dimensions.width * 0.05,
-          alignItems: 'center',
+          paddingBottom: dimensions.height * 0.014,
+          textAlign: 'center',
           alignSelf: 'center',
           color: 'white',
-          paddingBottom: dimensions.height * 0.014,
         }}
         >
           Casino
@@ -101,12 +96,12 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
               <TouchableOpacity
                 key={category}
                 style={{
-                  borderRadius: dimensions.width * 0.016,
+                  height: dimensions.height * 0.05,
                   backgroundColor: selectedEventCategory === category ? '#FF0000' : '#848484',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginLeft: dimensions.width * 0.03,
-                  height: dimensions.height * 0.05,
+                  borderRadius: dimensions.width * 0.016,
                 }}
                 onPress={() => {
                   setSelectedEventCategory(`${category}`);
@@ -114,11 +109,11 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
               >
                 <Text
                   style={{
-                    fontFamily: fontDMSansRegular,
+                    paddingHorizontal: dimensions.width * 0.03,
                     fontSize: dimensions.width * 0.043,
                     color: 'white',
                     fontWeight: 400,
-                    paddingHorizontal: dimensions.width * 0.03,
+                    fontFamily: fontDMSansRegular,
                   }}
                 >
                   {category}
@@ -147,7 +142,7 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
           justifyContent: 'flex-start',
         }}>
 
-          {data.map((item, index) => (
+          {casosData.map((item, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => {
@@ -155,46 +150,46 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
                 setModalVisible(true)
               }}
               style={{
-                alignSelf: 'center',
-                width: dimensions.width * 0.95,
                 marginBottom: dimensions.height * 0.021,
-                zIndex: 500
+                width: dimensions.width * 0.95,
+                zIndex: 500,
+                alignSelf: 'center',
               }}
             >
               <View style={{
-                position: 'relative',
+                alignSelf: 'center',
                 width: dimensions.width * 0.93,
                 height: dimensions.height * 0.25,
-                alignSelf: 'center',
+                position: 'relative',
               }}>
                 <Image
                   source={item.bthImage}
                   style={{
-                    width: dimensions.width * 0.93,
-                    height: dimensions.height * 0.25,
-                    alignSelf: 'center',
-                    textAlign: 'center',
                     borderRadius: dimensions.width * 0.03,
+                    alignSelf: 'center',
+                    height: dimensions.height * 0.25,
+                    textAlign: 'center',
+                    width: dimensions.width * 0.93,
                   }}
                   resizeMode="stretch"
                 />
 
                 {item.isTop && (
                   <View style={{
-                    position: 'absolute',
-                    bottom: dimensions.height * 0.019,
-                    right: dimensions.width * 0.03,
-                    backgroundColor: '#FF0000',
                     borderRadius: dimensions.width * 0.019,
+                    bottom: dimensions.height * 0.019,
+                    backgroundColor: '#FF0000',
+                    right: dimensions.width * 0.03,
+                    position: 'absolute',
                   }}>
                     <Text
                       style={{
                         fontFamily: fontDMSansRegular,
                         fontSize: dimensions.width * 0.043,
                         color: 'white',
+                        maxWidth: dimensions.width * 0.9,
                         padding: dimensions.width * 0.021,
                         fontWeight: 500,
-                        maxWidth: dimensions.width * 0.9,
                       }}
                     >
                       Top casino
@@ -203,19 +198,19 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
                 )}
               </View>
               <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
                 alignItems: 'center',
+                justifyContent: 'space-between',
+                flexDirection: 'row',
                 width: dimensions.width * 0.97,
               }}>
                 <Text
                   style={{
-                    fontFamily: fontDMSansRegular,
+                    maxWidth: dimensions.width * 0.9,
                     fontSize: dimensions.width * 0.046,
                     color: 'white',
-                    padding: dimensions.width * 0.021,
                     fontWeight: 600,
-                    maxWidth: dimensions.width * 0.9,
+                    padding: dimensions.width * 0.021,
+                    fontFamily: fontDMSansRegular,
                   }}
                 >
                   {item.bthTitle}
@@ -241,11 +236,11 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
           height: dimensions.height,
         }}>
           <View style={{
-            width: dimensions.width * 0.9,
+            alignSelf: 'center',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            alignSelf: 'center',
+            width: dimensions.width * 0.9,
           }}>
             <TouchableOpacity
               onPress={() => {
@@ -259,12 +254,12 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
               <ChevronLeftIcon size={dimensions.height * 0.034} color='#FF0000' />
               <Text
                 style={{
-                  fontFamily: fontDMSansRegular,
-                  color: '#FF0000',
-                  fontSize: dimensions.width * 0.05,
-                  textAlign: 'left',
                   fontWeight: 400,
+                  fontFamily: fontDMSansRegular,
+                  textAlign: 'left',
+                  fontSize: dimensions.width * 0.05,
                   paddingHorizontal: dimensions.width * 0.012,
+                  color: '#FF0000',
                 }}>
                 Back
               </Text>
@@ -282,24 +277,24 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
             <Image
               source={selectedCasi?.bthImage}
               style={{
-                width: dimensions.width,
+                borderTopRightRadius: 0,
                 height: dimensions.height * 0.23,
                 borderRadius: dimensions.width * 0.055555,
-                alignSelf: 'center',
+                width: dimensions.width,
                 marginTop: dimensions.height * 0.02,
                 borderTopLeftRadius: 0,
-                borderTopRightRadius: 0,
+                alignSelf: 'center',
               }}
               resizeMode='stretch'
             />
 
             {selectedCasi?.isTop && (
               <View style={{
-                backgroundColor: '#FF0000',
-                borderRadius: dimensions.width * 0.019,
-                marginTop: dimensions.height * 0.016,
                 alignSelf: 'flex-start',
+                backgroundColor: '#FF0000',
                 marginLeft: dimensions.width * 0.05,
+                marginTop: dimensions.height * 0.016,
+                borderRadius: dimensions.width * 0.019,
               }}>
                 <Text
                   style={{
@@ -317,14 +312,14 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
 
             <Text
               style={{
+                marginTop: dimensions.height * 0.012,
                 fontFamily: fontDMSansRegular,
-                color: 'white',
                 fontSize: dimensions.width * 0.055,
                 textAlign: 'left',
                 alignSelf: 'flex-start',
                 fontWeight: 600,
                 paddingHorizontal: dimensions.width * 0.05,
-                marginTop: dimensions.height * 0.012,
+                color: 'white',
               }}>
               {selectedCasi?.bthTitle}
             </Text>
@@ -332,12 +327,12 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
             <Text
               style={{
                 fontFamily: fontDMSansRegular,
-                color: 'rgba(255, 255, 255, 0.5)',
+                paddingHorizontal: dimensions.width * 0.05,
                 fontSize: dimensions.width * 0.037,
                 textAlign: 'left',
                 alignSelf: 'flex-start',
                 fontWeight: 400,
-                paddingHorizontal: dimensions.width * 0.05,
+                color: 'rgba(255, 255, 255, 0.5)',
                 marginTop: dimensions.height * 0.021,
               }}>
               Description
@@ -346,97 +341,97 @@ const CasScreen = ({ setSelectedBerlinScreen, selectedBerlinPlace, setSelectedBe
             <Text
               style={{
                 fontFamily: fontDMSansRegular,
+                marginTop: dimensions.height * 0.01,
                 color: 'white',
                 fontSize: dimensions.width * 0.04,
                 textAlign: 'left',
                 alignSelf: 'flex-start',
-                fontWeight: 400,
                 paddingHorizontal: dimensions.width * 0.05,
-                marginTop: dimensions.height * 0.01,
+                fontWeight: 400,
               }}>
               {selectedCasi?.bthDescription}
             </Text>
 
             <Text
               style={{
+                paddingHorizontal: dimensions.width * 0.05,
                 fontFamily: fontDMSansRegular,
-                color: 'rgba(255, 255, 255, 0.5)',
-                fontSize: dimensions.width * 0.037,
                 textAlign: 'left',
                 alignSelf: 'flex-start',
                 fontWeight: 400,
-                paddingHorizontal: dimensions.width * 0.05,
+                color: 'rgba(255, 255, 255, 0.5)',
                 marginTop: dimensions.height * 0.021,
+                fontSize: dimensions.width * 0.037,
               }}>
               Address
             </Text>
 
             <Text
               style={{
-                fontFamily: fontDMSansRegular,
-                color: 'white',
+                fontWeight: 400,
                 fontSize: dimensions.width * 0.04,
                 textAlign: 'left',
                 alignSelf: 'flex-start',
-                fontWeight: 400,
-                paddingHorizontal: dimensions.width * 0.05,
+                fontFamily: fontDMSansRegular,
                 marginTop: dimensions.height * 0.01,
+                paddingHorizontal: dimensions.width * 0.05,
+                color: 'white',
               }}>
               {selectedCasi?.bthAddress}
             </Text>
 
             <Text
               style={{
+                marginTop: dimensions.height * 0.021,
                 fontFamily: fontDMSansRegular,
-                color: 'rgba(255, 255, 255, 0.5)',
+                fontWeight: 400,
                 fontSize: dimensions.width * 0.037,
                 textAlign: 'left',
                 alignSelf: 'flex-start',
-                fontWeight: 400,
                 paddingHorizontal: dimensions.width * 0.05,
-                marginTop: dimensions.height * 0.021,
+                color: 'rgba(255, 255, 255, 0.5)',
               }}>
               Features
             </Text>
 
             <Text
               style={{
-                fontFamily: fontDMSansRegular,
+                fontWeight: 400,
                 color: 'white',
                 fontSize: dimensions.width * 0.04,
                 textAlign: 'left',
                 alignSelf: 'flex-start',
-                fontWeight: 400,
-                paddingHorizontal: dimensions.width * 0.05,
                 marginTop: dimensions.height * 0.01,
+                paddingHorizontal: dimensions.width * 0.05,
+                fontFamily: fontDMSansRegular,
               }}>
               {selectedCasi?.bthFeatures}
             </Text>
 
             <Text
               style={{
-                fontFamily: fontDMSansRegular,
                 color: 'rgba(255, 255, 255, 0.5)',
+                marginTop: dimensions.height * 0.025,
                 fontSize: dimensions.width * 0.037,
-                textAlign: 'left',
                 alignSelf: 'flex-start',
                 fontWeight: 400,
+                textAlign: 'left',
                 paddingHorizontal: dimensions.width * 0.05,
-                marginTop: dimensions.height * 0.025,
+                fontFamily: fontDMSansRegular,
               }}>
               Rules
             </Text>
 
             <Text
               style={{
+                marginTop: dimensions.height * 0.01,
                 fontFamily: fontDMSansRegular,
-                color: 'white',
-                fontSize: dimensions.width * 0.04,
+                paddingHorizontal: dimensions.width * 0.05,
                 textAlign: 'left',
                 alignSelf: 'flex-start',
+                fontSize: dimensions.width * 0.04,
+                color: 'white',
                 fontWeight: 400,
-                paddingHorizontal: dimensions.width * 0.05,
-                marginTop: dimensions.height * 0.01,
               }}>
               {selectedCasi?.bthRules}
             </Text>

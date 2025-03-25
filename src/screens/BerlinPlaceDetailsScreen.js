@@ -55,43 +55,43 @@ const BerlinPlaceDetailsScreen = ({ setSelectedBerlinScreen, selectedBerlinScree
     const isVisited = (place) => {
         return visited.some((vis) => vis.id === place.id);
     };
-    
+
     return (
         <SafeAreaView style={{
-            width: dimensions.width,
+            width: '100%',
             flex: 1,
             alignItems: 'center',
             justifyContent: 'flex-start',
+            width: dimensions.width,
+            zIndex: 1,
             position: 'relative',
-            width: '100%',
-            zIndex: 1
         }} >
             <View style={{
-                width: dimensions.width * 0.9,
                 flexDirection: 'row',
-                justifyContent: 'space-between',
                 alignItems: 'center',
+                justifyContent: 'space-between',
                 alignSelf: 'center',
                 paddingBottom: dimensions.height * 0.01,
+                width: dimensions.width * 0.9,
             }}>
                 <TouchableOpacity
                     onPress={() => {
                         setSelectedBerlinScreen('Home');
                     }}
                     style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
                         justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
                     }}>
                     <ChevronLeftIcon size={dimensions.height * 0.034} color='#FF0000' />
                     <Text
                         style={{
+                            paddingHorizontal: dimensions.width * 0.012,
+                            fontWeight: 400,
                             fontFamily: fontDMSansRegular,
-                            color: '#FF0000',
                             fontSize: dimensions.width * 0.05,
                             textAlign: 'left',
-                            fontWeight: 400,
-                            paddingHorizontal: dimensions.width * 0.012,
+                            color: '#FF0000',
                         }}>
                         Back
                     </Text>
@@ -109,111 +109,111 @@ const BerlinPlaceDetailsScreen = ({ setSelectedBerlinScreen, selectedBerlinScree
                 <Image
                     source={selectedBerlinPlace?.bthImage}
                     style={{
-                        width: dimensions.width,
-                        height: dimensions.height * 0.23,
-                        borderRadius: dimensions.width * 0.055555,
-                        alignSelf: 'center',
-                        marginTop: dimensions.height * 0.02,
-                        borderTopLeftRadius: 0,
                         borderTopRightRadius: 0,
+                        height: dimensions.height * 0.23,
+                        marginTop: dimensions.height * 0.02,
+                        borderRadius: dimensions.width * 0.055555,
+                        width: dimensions.width,
+                        borderTopLeftRadius: 0,
+                        alignSelf: 'center',
                     }}
                     resizeMode='stretch'
                 />
 
                 <Text
                     style={{
-                        fontFamily: fontDMSansRegular,
+                        marginTop: dimensions.height * 0.012,
                         color: 'white',
-                        fontSize: dimensions.width * 0.055,
+                        fontWeight: 600,
                         textAlign: 'left',
                         alignSelf: 'flex-start',
-                        fontWeight: 600,
+                        fontFamily: fontDMSansRegular,
                         paddingHorizontal: dimensions.width * 0.05,
-                        marginTop: dimensions.height * 0.012,
+                        fontSize: dimensions.width * 0.055,
                     }}>
                     {selectedBerlinPlace?.bthTitle}
                 </Text>
 
                 <Text
                     style={{
-                        fontFamily: fontDMSansRegular,
+                        marginTop: dimensions.height * 0.016,
                         color: 'rgba(255, 255, 255, 0.5)',
+                        fontFamily: fontDMSansRegular,
                         fontSize: dimensions.width * 0.037,
-                        textAlign: 'left',
                         alignSelf: 'flex-start',
                         fontWeight: 400,
                         paddingHorizontal: dimensions.width * 0.05,
-                        marginTop: dimensions.height * 0.016,
+                        textAlign: 'left',
                     }}>
                     History
                 </Text>
 
                 <Text
                     style={{
-                        fontFamily: fontDMSansRegular,
-                        color: 'white',
+                        paddingHorizontal: dimensions.width * 0.05,
+                        marginTop: dimensions.height * 0.01,
                         fontSize: dimensions.width * 0.04,
                         textAlign: 'left',
                         alignSelf: 'flex-start',
+                        fontFamily: fontDMSansRegular,
                         fontWeight: 400,
-                        paddingHorizontal: dimensions.width * 0.05,
-                        marginTop: dimensions.height * 0.01,
+                        color: 'white',
                     }}>
                     {selectedBerlinPlace?.bthHistory}
                 </Text>
 
                 <Text
                     style={{
-                        fontFamily: fontDMSansRegular,
+                        marginTop: dimensions.height * 0.016,
                         color: 'rgba(255, 255, 255, 0.5)',
-                        fontSize: dimensions.width * 0.037,
                         textAlign: 'left',
+                        fontSize: dimensions.width * 0.037,
                         alignSelf: 'flex-start',
                         fontWeight: 400,
                         paddingHorizontal: dimensions.width * 0.05,
-                        marginTop: dimensions.height * 0.016,
+                        fontFamily: fontDMSansRegular,
                     }}>
                     Address
                 </Text>
 
                 <Text
                     style={{
-                        fontFamily: fontDMSansRegular,
+                        marginTop: dimensions.height * 0.005,
                         color: 'white',
-                        fontSize: dimensions.width * 0.04,
-                        textAlign: 'left',
                         alignSelf: 'flex-start',
                         fontWeight: 400,
+                        fontSize: dimensions.width * 0.04,
+                        textAlign: 'left',
+                        fontFamily: fontDMSansRegular,
                         paddingHorizontal: dimensions.width * 0.05,
-                        marginTop: dimensions.height * 0.005,
                     }}>
                     {selectedBerlinPlace?.bthAddress}
                 </Text>
 
                 <Text
                     style={{
-                        fontFamily: fontDMSansRegular,
-                        color: 'rgba(255, 255, 255, 0.5)',
-                        fontSize: dimensions.width * 0.037,
-                        textAlign: 'left',
-                        alignSelf: 'flex-start',
                         fontWeight: 400,
-                        paddingHorizontal: dimensions.width * 0.05,
+                        fontSize: dimensions.width * 0.037,
+                        color: 'rgba(255, 255, 255, 0.5)',
                         marginTop: dimensions.height * 0.016,
+                        fontFamily: fontDMSansRegular,
+                        alignSelf: 'flex-start',
+                        textAlign: 'left',
+                        paddingHorizontal: dimensions.width * 0.05,
                     }}>
                     Entrance
                 </Text>
 
                 <Text
                     style={{
+                        fontWeight: 400,
                         fontFamily: fontDMSansRegular,
-                        color: 'white',
                         fontSize: dimensions.width * 0.04,
                         textAlign: 'left',
                         alignSelf: 'flex-start',
-                        fontWeight: 400,
                         paddingHorizontal: dimensions.width * 0.05,
                         marginTop: dimensions.height * 0.005,
+                        color: 'white',
                     }}>
                     {selectedBerlinPlace?.bthEntrance}
                 </Text>
@@ -223,50 +223,50 @@ const BerlinPlaceDetailsScreen = ({ setSelectedBerlinScreen, selectedBerlinScree
                         fontFamily: fontDMSansRegular,
                         color: 'rgba(255, 255, 255, 0.5)',
                         fontSize: dimensions.width * 0.037,
-                        textAlign: 'left',
+                        marginTop: dimensions.height * 0.016,
                         alignSelf: 'flex-start',
                         fontWeight: 400,
                         paddingHorizontal: dimensions.width * 0.05,
-                        marginTop: dimensions.height * 0.016,
+                        textAlign: 'left',
                     }}>
                     Tips
                 </Text>
 
                 <Text
                     style={{
+                        fontWeight: 400,
                         fontFamily: fontDMSansRegular,
-                        color: 'white',
-                        fontSize: dimensions.width * 0.04,
                         textAlign: 'left',
                         alignSelf: 'flex-start',
-                        fontWeight: 400,
                         paddingHorizontal: dimensions.width * 0.05,
+                        color: 'white',
                         marginTop: dimensions.height * 0.005,
+                        fontSize: dimensions.width * 0.04,
                     }}>
                     {selectedBerlinPlace?.bthTips}
                 </Text>
 
-                <TouchableOpacity 
+                <TouchableOpacity
                     onPress={() => handleVisited(selectedBerlinPlace)}
-                style={{
-                    width: dimensions.width * 0.9,
-                    height: dimensions.height * 0.059,
-                    backgroundColor: isVisited(selectedBerlinPlace) ? '#848484' : '#FF0000',
-                    borderRadius: dimensions.width * 0.034,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    alignSelf: 'center',
-                    marginTop: dimensions.height * 0.021,
-                }}>
+                    style={{
+                        marginTop: dimensions.height * 0.021,
+                        width: dimensions.width * 0.9,
+                        height: dimensions.height * 0.059,
+                        borderRadius: dimensions.width * 0.034,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        alignSelf: 'center',
+                        backgroundColor: isVisited(selectedBerlinPlace) ? '#848484' : '#FF0000',
+                    }}>
                     <Text
                         style={{
-                            fontFamily: fontDMSansRegular,
+                            paddingHorizontal: dimensions.width * 0.05,
                             color: 'white',
                             fontSize: dimensions.width * 0.05,
                             textAlign: 'center',
                             alignSelf: 'center',
                             fontWeight: 600,
-                            paddingHorizontal: dimensions.width * 0.05,
+                            fontFamily: fontDMSansRegular,
                         }}>
                         Mark as {!isVisited(selectedBerlinPlace) ? 'visited' : 'not visited'}
                     </Text>

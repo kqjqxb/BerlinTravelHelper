@@ -59,32 +59,32 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <SafeAreaView style={{
-                width: dimensions.width,
+                justifyContent: 'flex-start',
                 flex: 1,
                 zIndex: 1,
+                width: '100%',
                 alignItems: 'center',
                 position: 'relative',
-                width: '100%',
-                justifyContent: 'flex-start',
+                width: dimensions.width,
             }}>
                 <View style={{
-                    width: dimensions.width,
-                    borderBottomColor: '#FFFFFF80',
+                    marginBottom: dimensions.height * 0.01,
                     borderBottomWidth: dimensions.height * 0.00055,
                     alignSelf: 'center',
-                    marginBottom: dimensions.height * 0.01,
+                    width: dimensions.width,
                     justifyContent: 'center',
                     alignItems: 'center',
+                    borderBottomColor: '#FFFFFF80',
                 }}>
                     <Text style={{
-                        textAlign: 'center',
                         fontFamily: fontDMSansRegular,
                         fontWeight: 700,
-                        fontSize: dimensions.width * 0.05,
+                        paddingBottom: dimensions.height * 0.014,
                         alignItems: 'center',
+                        fontSize: dimensions.width * 0.05,
                         alignSelf: 'center',
                         color: 'white',
-                        paddingBottom: dimensions.height * 0.014,
+                        textAlign: 'center',
                     }}
                     >
                         Settings
@@ -101,13 +101,13 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
                     }}
                 >
                     <View style={{
-                        marginTop: dimensions.height * 0.01,
-                        width: dimensions.width * 0.93,
+                        paddingHorizontal: dimensions.width * 0.04,
                         alignSelf: 'center',
                         backgroundColor: '#404040',
                         borderRadius: dimensions.width * 0.05,
-                        paddingHorizontal: dimensions.width * 0.04,
+                        marginTop: dimensions.height * 0.01,
                         paddingVertical: dimensions.height * 0.016,
+                        width: dimensions.width * 0.93,
                     }}>
                         <Image
                             source={require('../assets/images/settingsImage.png')}
@@ -120,14 +120,14 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
                         />
 
                         <Text style={{
-                            textAlign: 'left',
+                            paddingBottom: dimensions.height * 0.014,
+                            alignSelf: 'flex-start',
                             fontFamily: fontDMSansRegular,
                             fontWeight: 400,
                             fontSize: dimensions.width * 0.043,
                             marginTop: dimensions.height * 0.016,
-                            alignSelf: 'flex-start',
                             color: 'white',
-                            paddingBottom: dimensions.height * 0.014,
+                            textAlign: 'left',
                         }}
                         >
                             Currency Converter
@@ -135,10 +135,10 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
 
                         <View style={{
                             flexDirection: 'row',
-                            justifyContent: 'space-between',
                             alignItems: 'center',
-                            width: '100%',
+                            justifyContent: 'space-between',
                             alignSelf: 'center',
+                            width: '100%',
                         }}>
                             <TextInput
                                 placeholder={`${firstCurrencyIs}`}
@@ -162,11 +162,11 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
                                 keyboardType='numeric'
                                 style={{
                                     maxWidth: dimensions.width * 0.8,
-                                    padding: dimensions.width * 0.03,
+                                    height: dimensions.height * 0.059,
                                     fontFamily: fontDMSansRegular,
                                     fontSize: firstCurrencyAmount.length > 0 ? dimensions.width * 0.043 : dimensions.width * 0.037,
                                     color: 'white',
-                                    height: dimensions.height * 0.059,
+                                    padding: dimensions.width * 0.03,
                                     alignSelf: 'center',
                                     width: dimensions.width * 0.34,
                                     borderRadius: dimensions.width * 0.025,
@@ -201,21 +201,21 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
                             </TouchableOpacity>
 
                             <View style={{
-                                width: dimensions.width * 0.34,
-                                backgroundColor: '#5A5A5A',
-                                borderRadius: dimensions.width * 0.025,
+                                paddingHorizontal: dimensions.width * 0.03,
                                 height: dimensions.height * 0.059,
+                                borderRadius: dimensions.width * 0.025,
+                                width: dimensions.width * 0.34,
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                paddingHorizontal: dimensions.width * 0.03,
+                                backgroundColor: '#5A5A5A',
                             }}>
                                 <Text style={{
-                                    textAlign: 'left',
+                                    color: 'white',
+                                    fontSize: dimensions.width * 0.037,
                                     alignSelf: 'flex-start',
                                     fontFamily: fontDMSansRegular,
                                     fontWeight: 400,
-                                    fontSize: dimensions.width * 0.037,
-                                    color: 'white',
+                                    textAlign: 'left',
                                 }}>
                                     {firstCurrencyAmount.replace(/\s/g, '').length === 0 && firstCurrencyIs === 'Dollars ($)' ? 'Euros (€)'
                                         : firstCurrencyAmount.replace(/\s/g, '').length === 0 && firstCurrencyIs !== 'Dollars ($)' ? 'Dollars ($)' : firstConvertedResult} {firstCurrencyAmount.replace(/\s/g, '').length !== 0 ? (firstCurrencyIs === 'Dollars ($)' ? '(€)' : '($)') : ''}
@@ -224,12 +224,12 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
                         </View>
 
                         <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
+                            marginTop: dimensions.height * 0.021,
                             alignItems: 'center',
+                            flexDirection: 'row',
                             width: '100%',
                             alignSelf: 'center',
-                            marginTop: dimensions.height * 0.021,
+                            justifyContent: 'space-between',
                         }}>
                             <TextInput
                                 placeholder={`${secondCurrencyIs}`}
@@ -252,16 +252,16 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
                                 placeholderTextSize={dimensions.width * 0.03}
                                 keyboardType='numeric'
                                 style={{
-                                    maxWidth: dimensions.width * 0.8,
+                                    backgroundColor: '#5A5A5A',
                                     padding: dimensions.width * 0.03,
                                     fontFamily: fontDMSansRegular,
-                                    fontSize: secondCurrencyAmount.length > 0 ? dimensions.width * 0.043 : dimensions.width * 0.037,
+                                    alignSelf: 'center',
                                     color: 'white',
                                     height: dimensions.height * 0.059,
-                                    alignSelf: 'center',
+                                    maxWidth: dimensions.width * 0.8,
                                     width: dimensions.width * 0.34,
                                     borderRadius: dimensions.width * 0.025,
-                                    backgroundColor: '#5A5A5A',
+                                    fontSize: secondCurrencyAmount.length > 0 ? dimensions.width * 0.043 : dimensions.width * 0.037,
                                 }}
                             />
 
@@ -291,21 +291,21 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
                             </TouchableOpacity>
 
                             <View style={{
-                                width: dimensions.width * 0.34,
-                                backgroundColor: '#5A5A5A',
+                                paddingHorizontal: dimensions.width * 0.03,
                                 borderRadius: dimensions.width * 0.025,
+                                width: dimensions.width * 0.34,
                                 height: dimensions.height * 0.059,
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                paddingHorizontal: dimensions.width * 0.03,
+                                backgroundColor: '#5A5A5A',
                             }}>
                                 <Text style={{
-                                    textAlign: 'left',
+                                    color: 'white',
+                                    fontWeight: 400,
                                     alignSelf: 'flex-start',
                                     fontFamily: fontDMSansRegular,
-                                    fontWeight: 400,
                                     fontSize: dimensions.width * 0.037,
-                                    color: 'white',
+                                    textAlign: 'left',
                                 }}>
                                     {secondCurrencyAmount.replace(/\s/g, '').length === 0 && secondCurrencyIs === 'Pound (£)' ? 'Euros (€)'
                                         : secondCurrencyAmount.replace(/\s/g, '').length === 0 && secondCurrencyIs !== 'Pound (£)' ? 'Pound (£)' : secondConvertedResult} {secondCurrencyAmount.replace(/\s/g, '').length !== 0 ? (secondCurrencyIs === 'Pound (£)' ? '(€)' : '(£)') : ''}
@@ -326,25 +326,25 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
                                     Linking.openURL(button.link);
                                 }}
                                 style={{
-                                    backgroundColor: '#404040',
+                                    paddingHorizontal: dimensions.width * 0.05,
                                     alignItems: 'center',
                                     borderRadius: dimensions.width * 0.034,
-                                    marginBottom: dimensions.height * 0.008,
+                                    flexDirection: 'row',
+                                    paddingVertical: dimensions.height * 0.019,
                                     alignSelf: 'center',
                                     width: dimensions.width * 0.93,
-                                    flexDirection: 'row',
+                                    backgroundColor: '#404040',
                                     justifyContent: 'space-between',
-                                    paddingVertical: dimensions.height * 0.019,
-                                    paddingHorizontal: dimensions.width * 0.05,
+                                    marginBottom: dimensions.height * 0.008,
                                 }}
                             >
                                 <Text
                                     style={{
-                                        fontFamily: fontDMSansRegular,
+                                        fontWeight: 400,
+                                        textAlign: 'center',
                                         color: 'white',
                                         fontSize: dimensions.width * 0.043,
-                                        textAlign: 'center',
-                                        fontWeight: 400,
+                                        fontFamily: fontDMSansRegular,
                                     }}>
                                     {button.title}
                                 </Text>
@@ -354,14 +354,14 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
                     </View>
 
                     <Text style={{
-                        textAlign: 'left',
-                        fontFamily: fontDMSansRegular,
-                        fontWeight: 400,
-                        fontSize: dimensions.width * 0.043,
                         marginTop: dimensions.height * 0.019,
-                        alignSelf: 'flex-start',
                         color: 'white',
+                        textAlign: 'left',
+                        fontWeight: 400,
+                        fontFamily: fontDMSansRegular,
+                        fontSize: dimensions.width * 0.043,
                         paddingHorizontal: dimensions.width * 0.05,
+                        alignSelf: 'flex-start',
                     }}
                     >
                         Visited Places
@@ -373,38 +373,38 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
                                 onPress={() => {
                                 }}
                                 style={{
-                                    alignSelf: 'center',
+                                    zIndex: 500,
                                     width: dimensions.width * 0.95,
-                                    marginBottom: dimensions.height * 0.021,
                                     marginTop: dimensions.height * 0.01,
-                                    zIndex: 500
+                                    marginBottom: dimensions.height * 0.021,
+                                    alignSelf: 'center',
                                 }}
                             >
                                 <Image
                                     source={item.bthImage}
                                     style={{
                                         width: dimensions.width * 0.93,
-                                        height: dimensions.height * 0.25,
+                                        borderRadius: dimensions.width * 0.03,
                                         alignSelf: 'center',
                                         textAlign: 'center',
-                                        borderRadius: dimensions.width * 0.03,
+                                        height: dimensions.height * 0.25,
                                     }}
                                     resizeMode="stretch"
                                 />
                                 <View style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
                                     width: dimensions.width * 0.97,
+                                    justifyContent: 'space-between',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
                                 }}>
                                     <Text
                                         style={{
-                                            fontFamily: fontDMSansRegular,
+                                            maxWidth: dimensions.width * 0.9,
                                             fontSize: dimensions.width * 0.046,
                                             color: 'white',
-                                            padding: dimensions.width * 0.021,
                                             fontWeight: 600,
-                                            maxWidth: dimensions.width * 0.9,
+                                            padding: dimensions.width * 0.021,
+                                            fontFamily: fontDMSansRegular,
                                         }}
                                     >
                                         {item.bthTitle}
@@ -415,22 +415,22 @@ const SettingsScreen = ({ selectedBerlinScreen, favorites, setFavorites }) => {
 
                     ) : (
                         <View style={{
-                            width: dimensions.width * 0.95,
-                            alignSelf: 'center',
-                            backgroundColor: '#404040',
+                            marginTop: dimensions.height * 0.01,
                             borderRadius: dimensions.width * 0.034,
+                            backgroundColor: '#404040',
+                            width: dimensions.width * 0.95,
                             paddingVertical: dimensions.height * 0.019,
                             paddingHorizontal: dimensions.width * 0.16,
-                            marginTop: dimensions.height * 0.01,
+                            alignSelf: 'center',
                         }}>
                             <Text style={{
-                                textAlign: 'center',
                                 fontFamily: fontDMSansRegular,
-                                fontWeight: 400,
-                                fontSize: dimensions.width * 0.043,
                                 alignSelf: 'center',
+                                fontSize: dimensions.width * 0.043,
+                                textAlign: 'center',
                                 color: 'white',
                                 paddingHorizontal: dimensions.width * 0.05,
+                                fontWeight: 400,
                             }}
                             >
                                 You have no visited places yet
