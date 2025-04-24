@@ -31,8 +31,10 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<key>NSCameraUsageDescription</key>
+<string>We need access to your camera to take photos for your wishlists items.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need access to your photo library to pick photos for your wishlists items.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SFProText-Bold.ttf</string>
