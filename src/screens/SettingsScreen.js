@@ -21,12 +21,12 @@ const privacyBerlinAndTermsBtns = [
     {
         id: 2,
         title: 'Privacy Policy',
-        link: '',
+        link: 'https://www.termsfeed.com/live/7b528b49-f075-4843-8658-0ba7650fba62',
     },
     {
         id: 1,
         title: 'Terms of Use',
-        link: '',
+        link: 'https://www.termsfeed.com/live/36e92335-d8ca-40a2-b38c-37a6dae126cc',
     },
 ]
 
