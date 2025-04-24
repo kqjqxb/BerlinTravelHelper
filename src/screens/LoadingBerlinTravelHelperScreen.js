@@ -44,7 +44,7 @@ const LoadingBerlinTravelHelperScreen = ({ setSelectedBerlinScreen }) => {
   useEffect(() => {
     setTimeout(() => {
       setSelectedBerlinScreen('Home');
-    }, 3000);
+    }, 3200);
   }, [percentage]);
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const LoadingBerlinTravelHelperScreen = ({ setSelectedBerlinScreen }) => {
         paddingHorizontal: dimensions.width * 0.1,
         marginBottom: dimensions.height * 0.014,
       }}>
-        Berlin Travel Helper
+        Berlin: Travel Helper
       </Animated.Text>
 
       <ActivityIndicator size="large" color="#FF0000" />
