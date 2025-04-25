@@ -193,7 +193,7 @@ const BerlinWishlistsScreen = ({ setSelectedBerlinScreen, selectedBerlinScreen }
                     width: '100%',
                 }}
                 contentContainerStyle={{
-                    paddingBottom: dimensions.height * 0.023,
+                    paddingBottom: dimensions.height * 0.161616,
                 }}
             >
                 {popularSouvenirsData.map((popularSouvenir, index) => (
